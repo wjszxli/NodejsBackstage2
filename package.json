@@ -1,0 +1,19 @@
+{
+  "name": "g20",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "config-lite": "^1.5.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.5.2",
+    "express": "~4.14.0",
+    "morgan": "~1.7.0",
+    "sequelize": "^3.27.0",
+    "serve-favicon": "~2.3.0"
+  }
+}

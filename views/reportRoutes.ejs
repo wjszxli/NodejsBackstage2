@@ -1,0 +1,54 @@
+<!--引入头部页-->
+<%- include('header') %>
+<body>
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <!--引入数据列表页-->
+        <%- include('reportRoutes/dataList') %>
+    </div>
+</div>
+<!--新增内容 开始-->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+    <!--引入新增内容页-->
+    <%- include('reportRoutes/addData') %>
+</div>
+<!--新增内容 结束-->
+<!-- content end -->
+<!--确认删除  开始-->
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">删除提示</div>
+        <div class="am-modal-bd">
+            您确定要删除这条记录吗？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<!--确认删除  结束-->
+<!--引入底部页-->
+<%- include('footer') %>
+
+<script>
+    function deleteReports(id) {
+        $('#my-confirm').modal({
+            relatedTarget: this,
+            onConfirm: function (options) {
+                $.ajax({
+                    url: 'reportRoutes/' + id + '/remove',
+                    success: function () {
+                        window.location.href = "/reportRoutes";
+                    }
+                });
+            },
+            // closeOnConfirm: false,
+            onCancel: function () {
+            }
+        });
+    }
+</script>
+</body>
+</html>

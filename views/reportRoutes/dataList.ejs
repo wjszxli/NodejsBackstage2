@@ -1,0 +1,94 @@
+<div class="am-cf am-padding am-padding-bottom-0">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">报表设计</strong> /
+        <small>数据设计</small>
+    </div>
+</div>
+<hr>
+<div class="am-g">
+    <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+                <button type="button" class="am-btn am-btn-primary am-round"
+                        data-am-modal="{target: '#doc-modal-1'}">
+                    <span class="am-icon-plus"></span> 新增
+                </button>
+                <button type="button" class="am-btn am-btn-danger am-round" ><span
+                            class="am-icon-trash-o"></span> 删除
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field">
+            <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+        </div>
+    </div>
+</div>
+<div class="am-g">
+    <div class="am-u-sm-12" id="reportDatas">
+        <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius ">
+                <thead>
+                <tr>
+                    <th class="table-check"><input type="checkbox"/></th>
+                    <th >表报编号</th>
+                    <th>页面类型</th>
+                    <th>报表名称</th>
+                    <th>二级标题</th>
+                    <th>尾部标题</th>
+                    <th>统计</th>
+                    <th>排序号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr   v-for="items in datas" >
+                    <td><input type="checkbox" value="{{items.id}}"/></td>
+                    <td v-text="items.id" ></td>
+
+                    <td><a href="#">表单</a></td>
+
+                    <td><a href="#">统计图</a></td>
+
+                    <td><a href="#" v-text="items.reportName"></a></td>
+                    <td><a href="#" v-text="items.reportSecond" ></a></td>
+                    <td><a href="#" v-text="items.reportEnd" ></a></td>
+
+                    <td><a href="#">总计</a></td>
+
+                    <td><a href="#" v-text="items.reportSort" ></a></td>
+                    <td>
+                        <div class="am-btn-toolbar">
+                            <div class="am-btn-group am-btn-group-xs">
+                                <a class="am-btn am-btn-primary" role="button" class="reportEdit" d-value="{{items.id}}" onclick="reportEdit('{{items.id}}')"  ><span
+                                            class="am-icon-pencil-square-o"></span> 编辑
+                                </a>
+                                <a class="am-btn am-btn-danger" href="#"
+                                    onclick="deleteReports('{{ items.id }}')"  role="button"><span
+                                            class="am-icon-trash-o"></span> 删除</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="am-cf">
+                共 <label v-text="datas.length" id="wjs"></label> 条记录
+                <div class="am-fr">
+                    <ul class="am-pagination">
+                        <li class="am-disabled"><a href="#">«</a></li>
+                        <li class="am-active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
