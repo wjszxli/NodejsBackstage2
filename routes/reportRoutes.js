@@ -6,14 +6,8 @@ var sequelize = new Sequelize(config.mysql);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    sequelize.query('SELECT * from rdm_reports').spread(function (results, metadata) {
-        res.render('reportRoutes', {
-            reportDatas: metadata
-        });
-    });
-    //res.render('reportRoutes');
+    res.render('reportRoutes', {reportDatas: ""});
 });
-
 router.post('/', function (req, res, next) {
     var report = sequelize.define('rdm_report', {
         reportId: Sequelize.STRING,
@@ -46,6 +40,9 @@ router.post('/', function (req, res, next) {
 });
 router.get('/:id/remove', function (req, res, next) {
     var id = req.params.id;
+    if(!id){
+        id=1;
+    }
     sequelize.query('delete  from rdm_reports where id=' + id + ' ').spread(function (results, metadata) {
         console.log(metadata.length);
         res.redirect('/reportRoutes');

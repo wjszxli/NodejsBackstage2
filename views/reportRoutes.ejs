@@ -31,24 +31,5 @@
 <!--确认删除  结束-->
 <!--引入底部页-->
 <%- include('footer') %>
-
-<script>
-    function deleteReports(id) {
-        $('#my-confirm').modal({
-            relatedTarget: this,
-            onConfirm: function (options) {
-                $.ajax({
-                    url: 'reportRoutes/' + id + '/remove',
-                    success: function () {
-                        window.location.href = "/reportRoutes";
-                    }
-                });
-            },
-            // closeOnConfirm: false,
-            onCancel: function () {
-            }
-        });
-    }
-</script>
 </body>
 </html>

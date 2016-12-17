@@ -7,14 +7,14 @@
             <div class="am-form-group">
                 <label for="reportId" class="am-u-sm-3">表报编号</label>
                 <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm" name="reportId" v-model="reportId" placeholder="请输入表报编号" required>
+                    <input type="text" class="am-input-sm" name="reportId" v-model="datas.reportId" placeholder="请输入表报编号" required>
                 </div>
             </div>
 
             <div class="am-form-group">
                 <label for="formType" class="am-u-sm-3">页面类型</label>
                 <div class="am-u-sm-9">
-                    <select class=" am-input-sm" name="formType" v-model="formType" required>
+                    <select class=" am-input-sm" name="formType" v-model="datas.formType" required>
                         <option value="0">表单</option>
                         <option value="1">统计图</option>
                     </select>
@@ -24,51 +24,51 @@
             <div class="am-form-group">
                 <label for="doc-ipt-3" class="am-u-sm-3">报表名称</label>
                 <div class="am-u-sm-9">
-                    <input type="text" class="am-form-field am-input-sm" v-model="reportName" name="reportName" required
+                    <input type="text" class="am-form-field am-input-sm" v-model="datas.reportName" name="reportName" required
                            placeholder="请输入报表名称">
                 </div>
             </div>
             <div class="am-form-group">
                 <label for="doc-ipt-4" class="am-u-sm-3">数据SQL</label>
                 <div class="am-u-sm-9">
-                    <textarea rows="5" id="reportSql" name="reportSql" v-model="reportSql" placeholder="请输入数据SQL" required></textarea>
+                    <textarea rows="5"  name="reportSql" v-model="datas.reportSql" placeholder="请输入数据SQL" required></textarea>
                 </div>
             </div>
             <div class="am-form-group">
                 <label for="reportStatistics" class="am-u-sm-3">统计字段</label>
                 <div class="am-u-sm-9">
-                    <textarea rows="3" name="reportStatistics" placeholder="请输入统计字段,以逗号分隔" v-model="reportStatistics"></textarea>
+                    <textarea rows="3" name="reportStatistics" placeholder="请输入统计字段,以逗号分隔" v-model="datas.reportStatistics"></textarea>
                 </div>
             </div>
             <div class="am-form-group">
                 <label class="am-u-sm-3">统计</label>
                 <div class="am-u-sm-9">
-                    <input type="checkbox" name="reportStatisticsType" v-model="reportStatisticsType1" class="am-checkbox-inline" value="0">是否小计
-                    <input type="checkbox" name="reportStatisticsType" v-model="reportStatisticsType2" class="am-checkbox-inline" value="1">是否总计
+                    <input type="checkbox" name="reportStatisticsType" v-model="datas.reportStatisticsType1" class="am-checkbox-inline" value="0">是否小计
+                    <input type="checkbox" name="reportStatisticsType" v-model="datas.reportStatisticsType2" class="am-checkbox-inline" value="1">是否总计
                 </div>
             </div>
             <div class="am-form-group">
                 <label for="reportStatistics" class="am-u-sm-3">二级标题</label>
                 <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm" v-model="reportSecond" name="reportSecond">
+                    <input type="text" class="am-input-sm" v-model="datas.reportSecond" name="reportSecond">
                 </div>
             </div>
             <div class="am-form-group">
                 <label for="reportStatistics" class="am-u-sm-3">尾部标题</label>
                 <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm" v-model="reportEnd" name="reportEnd">
+                    <input type="text" class="am-input-sm" v-model="datas.reportEnd" name="reportEnd">
                 </div>
             </div>
             <div class="am-form-group">
                 <label for="reportStatistics" class="am-u-sm-3" >排序号</label>
                 <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm" name="reportSort" v-model="reportSort" value="1" required>
+                    <input type="text" class="am-input-sm" name="reportSort" v-model="datas.reportSort" value="1" required>
                 </div>
             </div>
             <div class="am-form-group">
                 <div class="am-u-sm-10 am-u-sm-offset-2">
                     <button type="submit" class="am-btn am-btn-secondary am-radius" data-am-modal-close>取消</button>
-                    <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas" >提交</a>
+                    <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas('doc-modal-1')" >提交</a>
                 </div>
             </div>
         </form>
