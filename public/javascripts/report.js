@@ -13,22 +13,20 @@ var reportDatas=new Vue({
         }
      },
     methods:{
-        deleteReports:function(event){
-            // $('#my-confirm').modal({
-            //     relatedTarget: this,
-            //     onConfirm: function (options) {
-                    console.log(event);
-                    alert('reportRoutes/' + event + '/remove');
+        deleteReports:function(ids){
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
                     $.ajax({
-                        url: 'reportRoutes/' + event + '/remove',
+                        url: 'reportRoutes/' + ids + '/remove',
                         success: function () {
                             window.location.href = "/reportRoutes";
                         }
                     });
-            //     },
-            //     onCancel: function () {
-            //     }
-            // });
+                },
+                onCancel: function () {
+                }
+            });
         }
     }
 });

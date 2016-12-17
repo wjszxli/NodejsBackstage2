@@ -67,7 +67,7 @@
                                             class="am-icon-pencil-square-o"></span> 编辑
                                 </a>
                                 <a class="am-btn am-btn-danger" href="#"
-                                    onclick="deleteReports('{{ items.id }}')"  role="button"><span
+                                    v-on:click="deleteReports(items.id)"  role="button"><span
                                             class="am-icon-trash-o"></span> 删除</a>
                             </div>
                         </div>
