@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="am-u-sm-12 am-u-md-3">
-        <div class="am-input-group am-input-group-sm">
-            <input type="text" class="am-form-field" placeholder="输入报表名称搜索">
+        <div class="am-input-group am-input-group-sm" id="searchDatas">
+            <input type="text" v-model="searchId" class="am-form-field"  v-on:click="showDatas(1)" placeholder="输入报表名称搜索">
             <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="button">搜索</button>
           </span>
@@ -48,8 +48,6 @@
                 <tr v-for="items in datas" :key="items.id">
                     <td><input type="checkbox" value="{{items.id}}"/></td>
                     <td v-text="items.id"></td>
-
-                    <td><a href="#">表单</a></td>
 
                     <td><a href="#">统计图</a></td>
 

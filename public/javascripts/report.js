@@ -3,12 +3,13 @@ var reportDatas = new Vue({
     el: '#reportDatas',
     data: {
         datas: [],
-        dataCount: 0
+        dataCount: 0,
+        searchId:null
     },
     created: function () {
         //获取数据
         {
-            this.$http.get('/users/datas/1').then((response) => {
+            this.$http.get('/users/datas/1/'+this.searchId).then((response) => {
                 this.datas = response.body;
         },
             (response) =>
@@ -19,7 +20,7 @@ var reportDatas = new Vue({
         }
         //获取数据条数
         {
-            this.$http.get('/users/allCounts').then((response) => {
+            this.$http.get('/users/allCounts/'+this.searchId).then((response) => {
                 this.dataCount = response.body[0].allCounts;
         },
             (response) =>
@@ -39,10 +40,12 @@ var reportDatas = new Vue({
                 onConfirm: function (options) {
                     {
                         Vue.http.get(url).then((response) => {
-                            console.log(response);
-                        console.log(url);
                         showTip('删除成功');
-                        reportDatas.showDatas(1);
+                        //reportDatas.showDatas(1);
+                        setTimeout(function () {
+                            window.location="/reportRoutes";
+                        },1000)
+
                     },
                         (response) =>
                         {
@@ -62,7 +65,7 @@ var reportDatas = new Vue({
                 ids = 1;
             }
             {
-                this.$http.get('/users/datas/' + ids).then((response) => {
+                this.$http.get('/users/datas/' + ids+'/'+reportDatas.searchId).then((response) => {
                     this.datas = response.body;
             },
                 (response) =>
@@ -73,7 +76,7 @@ var reportDatas = new Vue({
             }
             //获取数据条数
             {
-                this.$http.get('/users/allCounts').then((response) => {
+                this.$http.get('/users/allCounts/'+reportDatas.searchId).then((response) => {
                     this.dataCount = response.body[0].allCounts;
             },
                 (response) =>
@@ -109,10 +112,12 @@ var reportNew = new Vue({
                 type: 'post',
                 data: this.datas,
                 success: function () {
-                    reportDatas.showDatas(1);
+                    //reportDatas.showDatas(1);
                     showTip('保存成功');
                     $('#' + modelId).modal('close');
-                    this.datas=null;
+                    setTimeout(function () {
+                        window.location="/reportRoutes";
+                    },1000)
                 }
             });
         }
@@ -129,7 +134,7 @@ var pageDatas = new Vue({
     //获取总数据条数
     created: function () {
         {
-            this.$http.get('/users/allCounts').then((response) => {
+            this.$http.get('/users/allCounts/'+reportDatas.searchId).then((response) => {
                 this.all = response.body[0].allCounts;
         },
             (response) =>
@@ -152,7 +157,7 @@ var pageDatas = new Vue({
         },
         //是否显示点击下一页
         showLast: function () {
-            if (this.cur == parseInt((this.all / this.size)+1)) {
+            if (this.cur == parseInt((this.all / this.size))) {
                 return false
             }
             return false;
@@ -195,4 +200,41 @@ var showTip = function (message) {
         showCloseButton: true
     });
 }
-
+var searchDatas=new Vue({
+    el:'#searchDatas',
+    data:{
+        datas:{
+            searchId:this.searchId
+        }
+    },
+    methods:{
+        //显示数据
+        showDatas: function (ids) {
+            //console.log(this.datas.searchId);
+            if (!ids) {
+                ids = 1;
+            }
+            {
+                this.$http.get('/users/datas/' + ids+'/'+reportDatas.searchId).then((response) => {
+                    this.datas = response.body;
+            },
+                (response) =>
+                {
+                    console.log('报错了');
+                }
+            );
+            }
+            //获取数据条数
+            {
+                this.$http.get('/users/allCounts/'+reportDatas.searchId).then((response) => {
+                    this.dataCount = response.body[0].allCounts;
+            },
+                (response) =>
+                {
+                    console.log('报错了');
+                }
+            );
+            }
+        }
+    }
+});
