@@ -15,8 +15,7 @@ var reportDatas = new Vue({
             {
                 console.log('报错了');
             }
-        )
-            ;
+        );
         }
         //获取数据条数
         {
@@ -27,8 +26,7 @@ var reportDatas = new Vue({
             {
                 console.log('报错了');
             }
-        )
-            ;
+        );
         }
     },
     methods: {
@@ -51,7 +49,7 @@ var reportDatas = new Vue({
                             console.log('报错了');
                         }
                     )
-                        ;
+;
                     }
                 },
                 onCancel: function () {
@@ -71,8 +69,7 @@ var reportDatas = new Vue({
                 {
                     console.log('报错了');
                 }
-            )
-                ;
+            );
             }
             //获取数据条数
             {
@@ -83,8 +80,7 @@ var reportDatas = new Vue({
                 {
                     console.log('报错了');
                 }
-            )
-                ;
+            );
             }
         }
     }
@@ -156,10 +152,10 @@ var pageDatas = new Vue({
         },
         //是否显示点击下一页
         showLast: function () {
-            if (this.cur == (this.all / this.size)) {
+            if (this.cur == parseInt((this.all / this.size)+1)) {
                 return false
             }
-            return true
+            return false;
         },
         //是否显示点击上一页
         showFirst: function () {
