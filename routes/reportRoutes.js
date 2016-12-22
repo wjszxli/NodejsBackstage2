@@ -44,7 +44,20 @@ router.get('/:id/remove', function (req, res, next) {
         id=1;
     }
     sequelize.query('delete  from rdm_reports where id=' + id + ' ').spread(function (results, metadata) {
-        console.log(metadata.length);
+        res.redirect('/reportRoutes');
+    });
+});
+router.post('/remove', function (req, res, next) {
+    var delDatas=req.body;
+    var delWhere="";
+    delDatas.forEach(function (items,index) {
+        if(index==delDatas.length-1){
+            delWhere+='\''+items+'\'';
+        }else{
+            delWhere+='\''+items+'\',';
+        }
+    });
+    sequelize.query('delete  from rdm_reports where id in (' + delWhere + ') ').spread(function (results, metadata) {
         res.redirect('/reportRoutes');
     });
 });

@@ -4,7 +4,7 @@
     </div>
 </div>
 <hr>
-<div class="am-g">
+<div class="am-g" id="searchDatas" >
     <div class="am-u-sm-12 am-u-md-6">
         <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs">
@@ -12,17 +12,17 @@
                         data-am-modal="{target: '#doc-modal-1'}">
                     <span class="am-icon-plus"></span> 新增
                 </button>
-                <button type="button" class="am-btn am-btn-danger am-round"><span
+                <button type="button" class="am-btn am-btn-danger am-round" v-on:click="deleteCheckBox"><span
                             class="am-icon-trash-o"></span> 删除
                 </button>
             </div>
         </div>
     </div>
     <div class="am-u-sm-12 am-u-md-3">
-        <div class="am-input-group am-input-group-sm" id="searchDatas">
-            <input type="text" v-model="searchId" class="am-form-field"  v-on:click="showDatas(1)" placeholder="输入报表名称搜索">
+        <div class="am-input-group am-input-group-sm" >
+            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入报表名称搜索">
             <span class="am-input-group-btn">
-            <button class="am-btn am-btn-default" type="button">搜索</button>
+            <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas(1)" >搜索</button>
           </span>
         </div>
     </div>
@@ -33,7 +33,7 @@
             <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius ">
                 <thead>
                 <tr>
-                    <th class="table-check"><input type="checkbox"/></th>
+                    <th class="table-check"><input type="checkbox" v-on:click="checkAll()"/></th>
                     <th>表报编号</th>
                     <th>页面类型</th>
                     <th>报表名称</th>
@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="items in datas" :key="items.id">
-                    <td><input type="checkbox" value="{{items.id}}"/></td>
+                    <td><input type="checkbox"  v-bind:value="items.id" v-model="checkedIds" /></td>
                     <td v-text="items.id"></td>
 
                     <td><a href="#">统计图</a></td>

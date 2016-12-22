@@ -16,8 +16,8 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
     }
     var searchDatas=req.params.searchDatas;
     var where="";
-    if(!searchDatas){
-        where=" and reportName like  "+searchDatas+"% ";
+    if(searchDatas!=null&&searchDatas!=''&&searchDatas!='null'&&searchDatas!='undefined'){
+        where=" and reportName like  '"+searchDatas+"%' ";
     }
     sequelize.query('SELECT * from rdm_reports where 1=1 '+where+' order by id limit '+(indexPages-1)*10+',10 ').spread(function (results, metadata) {
         res.send(metadata);
@@ -26,10 +26,9 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
 router.get('/allCounts/:searchDatas', function (req, res, next) {
     var searchDatas=req.params.searchDatas;
     var where="";
-    if(!searchDatas){
-        where=" and reportName like  "+searchDatas+"% ";
+    if(searchDatas!=null&&searchDatas!=''&&searchDatas!='null'&&searchDatas!='undefined'){
+        where=" and reportName like  '"+searchDatas+"%' ";
     }
-    console.log(where);
     sequelize.query(' SELECT COUNT(id) as allCounts from rdm_reports where 1=1 '+where+' ').spread(function (results, metadata) {
         res.send(metadata);
     });

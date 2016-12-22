@@ -4,7 +4,8 @@ var reportDatas = new Vue({
     data: {
         datas: [],
         dataCount: 0,
-        searchId:null
+        searchId:null,
+        checkedIds:[]
     },
     created: function () {
         //获取数据
@@ -44,7 +45,7 @@ var reportDatas = new Vue({
                         //reportDatas.showDatas(1);
                         setTimeout(function () {
                             window.location="/reportRoutes";
-                        },1000)
+                        },3000)
 
                     },
                         (response) =>
@@ -85,6 +86,13 @@ var reportDatas = new Vue({
                 }
             );
             }
+        },
+        //全选与反选
+        checkAll:function () {
+            var checkBox=$("#reportDatas input[type='checkbox']");
+            for(var i=0;i<checkBox.length;i++){
+                checkBox[i].checked=checkBox[0].checked;
+            }
         }
     }
 });
@@ -92,17 +100,17 @@ var reportDatas = new Vue({
 var reportNew = new Vue({
     el: '#reportNew',
     data: {
-     datas:{
-         reportId: this.reportId,
-         formType: this.formType,
-         reportName: this.reportName,
-         reportStatistics: this.reportStatistics,
-         reportStatisticsType: this.reportStatisticsType1,
-         reportStatisticsType2: this.reportStatisticsType2,
-         reportSql: this.reportSql,
-         reportSecond: this.reportSecond,
-         reportEnd: this.reportEnd,
-         reportSort: this.reportSort}
+     datas:{ //数据列表中的数据
+         reportId: '',
+         formType: '',
+         reportName: '',
+         reportStatistics: '',
+         reportStatisticsType: '',
+         reportStatisticsType2: '',
+         reportSql: '',
+         reportSecond: '',
+         reportEnd: '',
+         reportSort: ''}
     },
     methods: {
         //提交数据
@@ -117,8 +125,68 @@ var reportNew = new Vue({
                     $('#' + modelId).modal('close');
                     setTimeout(function () {
                         window.location="/reportRoutes";
-                    },1000)
+                    },3000)
                 }
+            });
+        }
+    }
+});
+//数据搜索时的处理
+var searchDatas=new Vue({
+    el:'#searchDatas',
+    data:{
+        datas:{
+            searchId:this.searchId
+        }
+    },
+    methods:{
+        //显示数据
+        showDatas: function (ids) {
+
+            if (!ids) {
+                ids = 1;
+            }
+            {
+                this.$http.get('/users/datas/' + ids+'/'+this.datas.searchId).then((response) => {
+                    reportDatas.datas = response.body;
+            },
+                (response) =>
+                {
+                    console.log('报错了');
+                }
+            );
+            }
+            //获取数据条数
+            {
+                this.$http.get('/users/allCounts/'+this.datas.searchId).then((response) => {
+                    reportDatas.dataCount = response.body[0].allCounts;
+                    pageDatas.all=response.body[0].allCounts;
+            },
+                (response) =>
+                {
+                    console.log('报错了');
+                }
+            );
+            }
+        },
+        //删除选中的数据
+        deleteCheckBox:function () {
+            var checkBox=$("#reportDatas input[type='checkbox']");
+            var delDatas=[];
+            for(var i=0;i<checkBox.length;i++){
+                if(checkBox[i].checked&&i!=0){
+                    delDatas.push(checkBox[i].value);
+                }
+            }
+            this.$http.post('reportRoutes/remove', delDatas)
+                .then((response) => {
+                showTip('删除成功');
+                setTimeout(function () {
+                    window.location="/reportRoutes";
+                },3000);
+            },(response) =>
+            {
+                console.log('报错了');
             });
         }
     }
@@ -127,14 +195,14 @@ var reportNew = new Vue({
 var pageDatas = new Vue({
     el: '#page-bar',
     data: {
-        all: 0, //总页数
+        all: 0, //总数据条数
         cur: 1,//当前页码
         size: 10//每页多少条数据
     },
     //获取总数据条数
     created: function () {
         {
-            this.$http.get('/users/allCounts/'+reportDatas.searchId).then((response) => {
+            this.$http.get('/users/allCounts/'+searchDatas.datas.searchId).then((response) => {
                 this.all = response.body[0].allCounts;
         },
             (response) =>
@@ -190,6 +258,7 @@ var pageDatas = new Vue({
         }
     }
 });
+//右下角弹窗提示
 var showTip = function (message) {
     $._messengerDefaults = {
         extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-right'
@@ -200,41 +269,3 @@ var showTip = function (message) {
         showCloseButton: true
     });
 }
-var searchDatas=new Vue({
-    el:'#searchDatas',
-    data:{
-        datas:{
-            searchId:this.searchId
-        }
-    },
-    methods:{
-        //显示数据
-        showDatas: function (ids) {
-            //console.log(this.datas.searchId);
-            if (!ids) {
-                ids = 1;
-            }
-            {
-                this.$http.get('/users/datas/' + ids+'/'+reportDatas.searchId).then((response) => {
-                    this.datas = response.body;
-            },
-                (response) =>
-                {
-                    console.log('报错了');
-                }
-            );
-            }
-            //获取数据条数
-            {
-                this.$http.get('/users/allCounts/'+reportDatas.searchId).then((response) => {
-                    this.dataCount = response.body[0].allCounts;
-            },
-                (response) =>
-                {
-                    console.log('报错了');
-                }
-            );
-            }
-        }
-    }
-});
