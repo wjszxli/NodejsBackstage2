@@ -258,14 +258,3 @@ var pageDatas = new Vue({
         }
     }
 });
-//右下角弹窗提示
-var showTip = function (message) {
-    $._messengerDefaults = {
-        extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-right'
-    }
-    $.globalMessenger().post({
-        message: message,
-        hideAfter: 2,
-        showCloseButton: true
-    });
-}

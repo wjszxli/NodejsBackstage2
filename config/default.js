@@ -1,6 +1,6 @@
 module.exports={
     mysql:{
-        database:'runoob',
+        database:'nodejsBackstage',
         username:'root',
         password:'123456'
     }

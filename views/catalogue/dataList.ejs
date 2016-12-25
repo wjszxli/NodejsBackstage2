@@ -1,0 +1,81 @@
+<div class="am-g" id="searchDatas" >
+    <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+                <button type="button" class="am-btn am-btn-primary am-round" id="newData"  >
+                    <span class="am-icon-plus"></span> 新增
+                </button>
+                <button type="button" class="am-btn am-btn-danger am-round" v-on:click="deleteCheckBox"><span
+                            class="am-icon-trash-o"></span> 删除
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-input-group am-input-group-sm" >
+            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入报表名称搜索">
+            <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas(1)" >搜索</button>
+          </span>
+        </div>
+    </div>
+</div>
+<div class="am-g">
+    <div class="am-u-sm-12">
+        <form class="am-form" id="catalogue_list">
+            <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius ">
+                <thead>
+                <tr>
+                    <th class="table-check"><input type="checkbox" v-on:click="checkAll()"/></th>
+                    <th>目录编号</th>
+                    <th>目录名称</th>
+                    <th>目录图标</th>
+                    <th>重点与否</th>
+                    <th>备注</th>
+                    <th>排序号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="items in datas" :key="items.id">
+                    <td><input type="checkbox"  v-bind:value="items.id" v-model="checkedIds" /></td>
+                    <td v-text="items.catalogue_id"></td>
+                    <td><a href="#" v-text="items.catalogue_name" ></a></td>
+                    <td><a href="#" v-text="items.catalogue_icon" ></a></td>
+                    <td><a href="#" v-if="items.catalogue_start === '1'" >重点目录</a>
+                        <a href="#" v-else >非重点目录</a></td>
+                    <td><a href="#" v-text="items.catalogue_remark"></a></td>
+                    <td><a href="#" v-text="items.catalogue_sort"></a></td>
+                    <td>
+                        <div class="am-btn-toolbar">
+                            <div class="am-btn-group am-btn-group-xs">
+                                <a class="am-btn am-btn-primary" role="button" class="reportEdit" d-value="{{items.id}}"
+                                   v-on:click="reportEdit(items.id)"><span
+                                            class="am-icon-pencil-square-o"></span> 编辑
+                                </a>
+                                <a class="am-btn am-btn-danger" href="#"
+                                   v-on:click="deleteReports(items.id)" role="button"><span
+                                            class="am-icon-trash-o"></span> 删除</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="am-cf">
+                共 <label v-text="dataCount"></label> 条记录
+            </div>
+        </form>
+        <div class="am-cf">
+            <div class="am-fr">
+                <ul class="am-pagination" id="page_bar">
+                    <li v-if="showFirst"><a href="#" v-on:click="prePages()">«</a></li>
+                    <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                        <a href="#" v-on:click="changePages(index)" v-text="index"></a>
+                    </li>
+                    <li v-if="showLast"><a href="#" v-on:click="nextPages()">»</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
