@@ -2,82 +2,78 @@
     <div class="am-modal-hd">新增目录
         <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
     </div>
-    <div class="am-modal-bd" >
-        <form class="am-form am-form-horizontal" method="post" id="catalogue_new"  >
+    <div class="am-modal-bd">
+        <form class="am-form am-form-horizontal" method="post" id="catalogue_new">
             <fieldset>
-            <div class="am-form-group">
-                <label for="reportId" class="am-u-sm-3">目录编号</label>
-                <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm" data-foolish-msg="请输入目录编号！" v-model="datas.catalogue_id" placeholder="请输入目录编号" disabled required>
+                <div class="am-form-group">
+                    <label for="reportId" class="am-u-sm-3">目录编号</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm"  v-model="datas.catalogue_id"
+                               placeholder="请输入目录编号" disabled required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="am-form-group">
-                <label for="formType" class="am-u-sm-3">目录名称</label>
-                <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm"  v-model="datas.catalogue_name" data-foolish-msg="请输入目录名称！" placeholder="请输入目录名称" required>
+                <div class="am-form-group">
+                    <label for="formType" class="am-u-sm-3">目录名称</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.catalogue_name"
+                                placeholder="请输入目录名称" required>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label for="doc-ipt-3" class="am-u-sm-3">目录图标</label>
-                <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm"  v-model="datas.catalogue_icon" data-foolish-msg="请输入目录图标！" placeholder="请输入目录图标" required>
+                <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-sm-3">目录图标</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.catalogue_icon"
+                                placeholder="请输入目录图标" required>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label for="doc-ipt-4" class="am-u-sm-3">重点与否</label>
-                <div class="am-u-sm-9">
-                    <select class=" am-input-sm" data-foolish-msg="请选择重点与否！" v-model="datas.catalogue_start" required>
-                        <option value="0" >非重点目录</option>
-                        <option value="1">重点目录</option>
-                    </select>
+                <div class="am-form-group">
+                    <label for="doc-ipt-4" class="am-u-sm-3">重点与否</label>
+                    <div class="am-u-sm-9">
+                        <select class=" am-input-sm"  v-model="datas.catalogue_start"
+                                required>
+                            <option value="0">非重点目录</option>
+                            <option value="1">重点目录</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label for="reportStatistics" class="am-u-sm-3">备注</label>
-                <div class="am-u-sm-9">
-                    <textarea rows="3"  placeholder="请输入备注" v-model="datas.catalogue_remark"></textarea>
+                <div class="am-form-group">
+                    <label for="doc-ipt-4" class="am-u-sm-3">父级</label>
+                    <div class="am-u-sm-9">
+                        <select class=" am-input-sm"  v-model="datas.catalogue_start"
+                                required>
+                            <option value="0">非重点目录</option>
+                            <option value="1">重点目录</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-u-sm-3">排序号</label>
-                <div class="am-u-sm-9">
-                    <input type="text" class="am-input-sm"  data-foolish-msg="请输入排序号！" v-model="datas.catalogue_sort" placeholder="请输入排序号" required>
+                <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-sm-3">链接地址</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.catalogue_icon"
+                                placeholder="请输入链接地址" required>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <div class="am-u-sm-10 am-u-sm-offset-2">
-                    <button type="submit" class="am-btn am-btn-secondary am-radius" data-am-modal-close>取消</button>
-                    <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas('doc-modal-1')" >提交</a>
+                <div class="am-form-group">
+                    <label for="reportStatistics" class="am-u-sm-3">备注</label>
+                    <div class="am-u-sm-9">
+                        <textarea rows="3" placeholder="请输入备注" v-model="datas.catalogue_remark"></textarea>
+                    </div>
                 </div>
-            </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">排序号</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm"  v-model="datas.catalogue_sort"
+                               placeholder="请输入排序号" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10 am-u-sm-offset-2">
+                        <button type="submit" class="am-btn am-btn-secondary am-radius" data-am-modal-close>取消</button>
+                        <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas('doc-modal-1')">提交</a>
+                    </div>
+                </div>
             </fieldset>
         </form>
-        <style>
-            #vld-tooltip {
-                position: absolute;
-                z-index: 9999999;
-                padding: 5px 10px;
-                background: #F37B1D;
-                min-width: 150px;
-                color: #fff;
-                transition: all 0.15s;
-                box-shadow: 0 0 5px rgba(0,0,0,.15);
-                display: none;
-            }
-
-            #vld-tooltip:before {
-                position: absolute;
-                top: -8px;
-                left: 50%;
-                width: 0;
-                height: 0;
-                margin-left: -8px;
-                content: "";
-                border-width: 0 8px 8px;
-                border-color: transparent transparent #F37B1D;
-                border-style: none inset solid;
-            }
-        </style>
     </div>
 </div>

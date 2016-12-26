@@ -6,7 +6,7 @@ var sequelize = new Sequelize(config.mysql);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    res.render('users/index');
 });
 
 router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {

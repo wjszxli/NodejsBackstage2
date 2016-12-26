@@ -22,3 +22,13 @@ var indexCatalogue=new Vue({
         });
     }
 });
+var indexIfram=new Vue({
+    el:'#body_iframe',
+    data:{
+        strIfr:''
+    },
+    created:function () {
+        this.strIfr='<iframe name=\"theMain\" id=\"theMain\" width=\"100%\" height=\"800\" allowfullscreen mozallowfullscreen webkitallowfullscreen frameborder=\"0\" src=\"/catalogue\" scrolling="no"></iframe>';
+    }
+
+});

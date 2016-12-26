@@ -31,20 +31,9 @@
   <!-- sidebar start -->
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <!-目录菜单 自动生成-->
       <ul class="am-list admin-sidebar-list" v-html="strHtml">
-        <!---->
-        <!--<li class="admin-parent">-->
-          <!--<a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 页面模块 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>-->
-          <!--<ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">-->
-            <!--<li><a href="admin-user.html" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>-->
-          <!--</ul>-->
-        <!--</li>-->
-        <!--<li><a href="reportRoutes/1"><span class="am-icon-table"></span> 表格</a></li>-->
-        <!--<li><a href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 表单</a></li>-->
-        <!--<li>-->
-
       </ul>
-
       <div class="am-panel am-panel-default admin-sidebar-panel">
         <div class="am-panel-bd">
           <p><span class="am-icon-bookmark"></span> 公告</p>
@@ -54,11 +43,10 @@
     </div>
   </div>
   <!-- sidebar end -->
-
   <!-- content start -->
-  <div class="admin-content">
-    <div class="admin-content-body" id="body_ifram" >
-      <iframe name="theMain" id="theMain" width="100%" height="800" allowfullscreen mozallowfullscreen webkitallowfullscreen frameborder="0" src="/reportRoutes" scrolling="no"></iframe>
+  <div class="admin-content" id="body_iframe">
+    <div class="admin-content-body" id="div_ifram" v-html="strIfr" >
+
     </div>
   </div>
   <!-- content end -->
