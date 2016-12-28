@@ -13,7 +13,7 @@
     </div>
     <div class="am-u-sm-12 am-u-md-3">
         <div class="am-input-group am-input-group-sm" >
-            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入报表名称搜索">
+            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入姓名搜索">
             <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas(1)" >搜索</button>
           </span>
@@ -22,30 +22,30 @@
 </div>
 <div class="am-g">
     <div class="am-u-sm-12">
-        <form class="am-form" id="catalogue_list">
+        <form class="am-form" id="user_list">
             <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius ">
                 <thead>
                 <tr>
                     <th class="table-check"><input type="checkbox" v-on:click="checkAll()"/></th>
-                    <th>目录编号</th>
-                    <th>目录名称</th>
-                    <th>目录图标</th>
-                    <th>重点与否</th>
-                    <th>备注</th>
-                    <th>排序号</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>岗位</th>
+                    <th>手机</th>
+                    <th>是否启用</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="items in datas" :key="items.id">
                     <td><input type="checkbox"  v-bind:value="items.id" v-model="checkedIds" /></td>
-                    <td v-text="items.catalogue_id"></td>
-                    <td><a href="#" v-text="items.catalogue_name" ></a></td>
-                    <td><a href="#" v-text="items.catalogue_icon" ></a></td>
-                    <td><a href="#" v-if="items.catalogue_start === '1'" >重点目录</a>
-                        <a href="#" v-else >非重点目录</a></td>
-                    <td><a href="#" v-text="items.catalogue_remark"></a></td>
-                    <td><a href="#" v-text="items.catalogue_sort"></a></td>
+                    <td v-text="items.user_account"></td>
+                    <td><a href="#" v-text="items.user_realname" ></a></td>
+                    <td><a href="#" v-text="items.user_dept_id" ></a></td>
+                    <td><a href="#" v-text="items.user_duty_id"></a></td>
+                    <td><a href="#" v-text="items.user_phone"></a></td>
+                    <td><a href="#" v-if="items.user_enable == '0'" >停用</a>
+                        <a href="#" v-else >启用</a></td>
                     <td>
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs">

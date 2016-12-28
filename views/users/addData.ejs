@@ -3,15 +3,8 @@
         <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
     </div>
     <div class="am-modal-bd">
-        <form class="am-form am-form-horizontal" method="post" id="catalogue_new">
+        <form class="am-form am-form-horizontal" method="post" id="user_new">
             <fieldset>
-                <div class="am-form-group">
-                    <label for="reportId" class="am-u-sm-3">用户名</label>
-                    <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.user_account"
-                               placeholder="请输入用户名" required>
-                    </div>
-                </div>
                 <div class="am-form-group">
                     <label for="doc-ipt-3" class="am-u-sm-3">姓名</label>
                     <div class="am-u-sm-9">
@@ -20,9 +13,16 @@
                     </div>
                 </div>
                 <div class="am-form-group">
+                    <label for="reportId" class="am-u-sm-3">用户名</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.user_account"
+                               placeholder="请输入用户名" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
                     <label for="formType" class="am-u-sm-3">密码</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.user_password"
+                        <input type="password" class="am-input-sm" v-model="datas.user_password"
                                placeholder="请输入密码" required>
                     </div>
                 </div>
@@ -59,8 +59,8 @@
                     <label for="doc-ipt-3" class="am-u-sm-3">是否启用</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_enable" required>
-                            <option value="0">是</option>
-                            <option value="1">否</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
                         </select>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="am-form-group">
                     <label class="am-u-sm-3">生日</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.user_birthday" data-am-datepicker readonly
+                        <input type="text" class="am-input-sm" v-model="datas.user_birthday" data-am-datepicker
                                placeholder="请输入生日" required>
                     </div>
                 </div>
