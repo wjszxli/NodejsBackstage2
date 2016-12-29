@@ -40,10 +40,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/reportRoutes',reportRouter);
-app.use('/catalogue',catalogue);
+// app.use('/', index);
+// app.use('/users', users);
+// app.use('/reportRoutes',reportRouter);
+// app.use('/catalogue',catalogue);
+
+app.set(function() {
+    app.use(express.cookieParser('keyboard cat'));
+    app.use(express.session({ cookie: { maxAge: 60000 }}));
+    app.use(flash());
+});
+
+app.get('/', function(req, res){
+    // Set a flash message by passing the key, followed by the value, to req.flash().
+    req.flash('info', 'Flash is back!')
+    res.redirect('/');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,7 +63,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

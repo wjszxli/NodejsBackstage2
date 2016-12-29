@@ -1,7 +1,7 @@
 var config = require('config-lite');
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize(config.mysql);
-
+//数据对象
 var report = sequelize.define('rdm_users', {
     user_account: Sequelize.STRING(50),
     user_realname: Sequelize.STRING(100),
@@ -18,7 +18,7 @@ var report = sequelize.define('rdm_users', {
 });
 
 module.exports = {
-    // 添加用户
+    // 添加数据
     create: function (insertDatas) {
        return sequelize.sync().then(function () {
             return report.create(insertDatas);
