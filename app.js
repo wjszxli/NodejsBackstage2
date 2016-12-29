@@ -4,26 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var flash = require('connect-flash');
+var config = require('config-lite');
+var session=require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var report =require('./routes/report');
 var reportRouter=require('./routes/reportRoutes');
 var catalogue=require('./routes/catalogue');
-
-
-// 使用 Mock
-var Mock = require('mockjs')
-var data = Mock.mock({
-    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
-    'list|1-10': [{
-        // 属性 id 是一个自增数，起始值为 1，每次增 1
-        'id|+1': 1
-    }]
-})
-// 输出结果
-console.log(JSON.stringify(data, null, 4));
 
 var app = express();
 
@@ -32,6 +20,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
+// session 中间件
+app.use(session({
+    name: config.session.key,// 设置 cookie 中保存 session id 的字段名称
+    secret: config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
+    cookie: {
+        maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
+    },
+    store:''
+}));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

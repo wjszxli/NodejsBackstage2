@@ -6,21 +6,21 @@
         <form class="am-form am-form-horizontal" method="post" id="user_new">
             <fieldset>
                 <div class="am-form-group">
-                    <label for="doc-ipt-3" class="am-u-sm-3">姓名</label>
+                    <label class="am-u-sm-3">姓名</label>
                     <div class="am-u-sm-9">
                         <input type="text" class="am-input-sm" v-model="datas.user_realname"
                                placeholder="请输入姓名" required>
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="reportId" class="am-u-sm-3">用户名</label>
+                    <label class="am-u-sm-3">用户名</label>
                     <div class="am-u-sm-9">
                         <input type="text" class="am-input-sm" v-model="datas.user_account"
                                placeholder="请输入用户名" required>
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="formType" class="am-u-sm-3">密码</label>
+                    <label class="am-u-sm-3">密码</label>
                     <div class="am-u-sm-9">
                         <input type="password" class="am-input-sm" v-model="datas.user_password"
                                placeholder="请输入密码" required>
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label for="formType" class="am-u-sm-3">部门</label>
+                    <label class="am-u-sm-3">部门</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_dept_id" required>
                             <option value="0">非重点目录</option>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="doc-ipt-3" class="am-u-sm-3">岗位</label>
+                    <label class="am-u-sm-3">岗位</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_duty_id" required>
                             <option value="0">非重点目录</option>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="doc-ipt-3" class="am-u-sm-3">角色</label>
+                    <label class="am-u-sm-3">角色</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_role_id"
                                 required>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="doc-ipt-3" class="am-u-sm-3">是否启用</label>
+                    <label class="am-u-sm-3">是否启用</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_enable" required>
                             <option value="1">是</option>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="reportStatistics" class="am-u-sm-3">性别</label>
+                    <label class="am-u-sm-3">性别</label>
                     <div class="am-u-sm-9">
                         <select class=" am-input-sm" v-model="datas.user_gender"
                                 required>
@@ -84,7 +84,7 @@
                 <div class="am-form-group">
                     <label class="am-u-sm-3">生日</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.user_birthday" data-am-datepicker
+                        <input type="datetime" class="am-input-sm" v-model="datas.user_birthday" data-am-datepicker
                                placeholder="请输入生日" required>
                     </div>
                 </div>
