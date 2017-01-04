@@ -15,7 +15,7 @@ var usersDatas = new Vue({
             this.datas = response.body.rows;
             this.dataCount = response.body.count;
         }).catch(function (response) {
-            showTip('获取数据有误');
+            showTip(response);
         });
     },
     methods: {
@@ -30,7 +30,7 @@ var usersDatas = new Vue({
                         usersDatas.showDatas(1);
                         url = '';
                     }).catch(function (response) {
-                        showTip('删除数据有误');
+                        showTip(response);
                     });
                 },
                 onCancel: function () {
@@ -46,31 +46,37 @@ var usersDatas = new Vue({
                 this.datas = response.body.rows;
                 this.dataCount = response.body.count;
             }).catch(function (response) {
-                showTip('显示数据有误');
+                showTip(response);
             });
         },
         //编辑数据
-        reportEdit: function (ids) {
+        userEdit: function (ids) {
             this.editIds = ids;
             usersDatas.statues = 'edit';
             var $modal = $('#doc-modal-1');
             this.$http.get('/users/' + ids + '/edit').then(function (response) {
-                //重新赋值
-                usersNew.datas.users_id = response.body[0].users_id;
-                usersNew.datas.users_name = response.body[0].users_name;
-                usersNew.datas.users_icon = response.body[0].users_icon;
-                usersNew.datas.users_start = response.body[0].users_start;
-                usersNew.datas.users_remark = response.body[0].users_remark;
-                usersNew.datas.users_sort = response.body[0].users_sort;
+                console.log(response);
+                userNew.datas.user_account = response.data.user_account;
+                userNew.datas.user_realname = response.data.user_realname;
+                userNew.datas.user_password = response.data.user_password;
+                userNew.datas.user_dept_id = response.data.user_dept_id;
+                userNew.datas.user_duty_id = response.data.user_duty_id;
+                userNew.datas.user_role_id = response.data.user_role_id;
+                userNew.datas.user_enable = response.data.user_enable;
+                userNew.datas.user_gender = response.data.user_gender;
+                userNew.datas.user_phone = response.data.user_phone;
+                userNew.datas.user_birthday = new Date(response.data.user_birthday).getFullYear() + '-' + new Date(response.data.user_birthday).getMonth() + '-' + new Date(response.data.user_birthday).getDay();
+                userNew.datas.user_email = response.data.user_email;
+                userNew.datas.user_remark = response.data.user_remark;
                 //将窗口打开
                 $modal.modal();
             }).catch(function (response) {
-                showTip('编辑数据有误');
+                showTip(response);
             });
         },
         //全选与反选
         checkAll: function () {
-            var checkBox = $("#users_list input[type='checkbox']");
+            var checkBox = $("#user_list input[type='checkbox']");
             for (var i = 0; i < checkBox.length; i++) {
                 checkBox[i].checked = checkBox[0].checked;
             }
@@ -99,7 +105,7 @@ var searchDatas = new Vue({
                     usersDatas.datas = response.body.rows;
                     usersDatas.dataCount = response.body.count;
                 }).catch(function (response) {
-                    showTip('搜索数据有误');
+                    showTip(response);
                 });
             }
             ,
@@ -108,7 +114,7 @@ var searchDatas = new Vue({
                 $('#my-confirm-more').modal({
                     relatedTarget: this,
                     onConfirm: function (options) {
-                        var checkBox = $("#users_list input[type='checkbox']");
+                        var checkBox = $("#user_list input[type='checkbox']");
                         var delDatas = [];
                         for (var i = 0; i < checkBox.length; i++) {
                             if (checkBox[i].checked && i != 0) {
@@ -119,7 +125,7 @@ var searchDatas = new Vue({
                             showTip('删除成功');
                             usersDatas.showDatas(1);
                         }).catch(function (response) {
-                            showTip('删除数据有误');
+                            showTip(response);
                         });
                     },
                     onCancel: function () {
@@ -248,7 +254,7 @@ var userNew = new Vue({
                 $('#' + modelId).modal('close');
                 usersDatas.showDatas(1);
             }).catch(function (response) {
-                showTip('保存数据有误');
+                showTip(response);
             });
         }
     }

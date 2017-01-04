@@ -31,7 +31,7 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
     }
     var objCondition = {
         where: objWhere,
-        offset: parseInt(indexPages) - 1,
+        offset: (parseInt(indexPages) - 1) * 10,
         limit: 10
     };
     users.findAndCountAll(objCondition).then(function (result) {
@@ -98,6 +98,39 @@ router.post('/', function (req, res, next) {
     }
     users.create(insertDatas).then(function (error, result) {
         res.send(success);
+    }).catch(function (e) {
+        res.send(error);
+    });
+});
+/**
+ * 删除多条数据
+ * post[id,id,id,id,id,]
+ * return count 数量
+ */
+router.post('/remove', function (req, res, next) {
+    var delDatas = req.body;
+    if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
+        objWhere = {id: delDatas};
+    }
+    var objCondition = {
+        where: objWhere
+    }
+    users.deleteDatas(objCondition).then(function (result) {
+        res.send(result + '');
+    }).catch(function (e) {
+        res.send(error);
+    });
+});
+router.get('/:id/edit', function (req, res, next) {
+    var ids = req.params.id;
+    if (ids != '' && ids != 'null' && ids != 'undefined') {
+        objWhere = {id: ids};
+    }
+    var objCondition = {
+        where: objWhere
+    }
+    users.findOne(objCondition).then(function (result) {
+        res.send(result);
     }).catch(function (e) {
         res.send(error);
     });
