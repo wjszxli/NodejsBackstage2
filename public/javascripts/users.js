@@ -14,6 +14,7 @@ var usersDatas = new Vue({
         this.$http.get('/users/datas/1/' + this.searchId).then(function (response) {
             this.datas = response.body.rows;
             this.dataCount = response.body.count;
+            pageDatas.all = response.body.count;
         }).catch(function (response) {
             showTip(response);
         });
@@ -45,6 +46,7 @@ var usersDatas = new Vue({
             this.$http.get('/users/datas/' + ids + '/' + usersDatas.searchId).then(function (response) {
                 this.datas = response.body.rows;
                 this.dataCount = response.body.count;
+                pageDatas.all = response.body.count;
             }).catch(function (response) {
                 showTip(response);
             });
@@ -68,6 +70,7 @@ var usersDatas = new Vue({
                 userNew.datas.user_birthday = new Date(response.data.user_birthday).getFullYear() + '-' + new Date(response.data.user_birthday).getMonth() + '-' + new Date(response.data.user_birthday).getDay();
                 userNew.datas.user_email = response.data.user_email;
                 userNew.datas.user_remark = response.data.user_remark;
+                userNew.datas.id = response.data.id;
                 //将窗口打开
                 $modal.modal();
             }).catch(function (response) {
@@ -85,56 +88,74 @@ var usersDatas = new Vue({
 });
 //数据搜索时的处理
 var searchDatas = new Vue({
-        el: '#searchDatas',
-        data: {
-            datas: {
-                searchId: this.searchId
-            }
-        },
-        methods: {
-            //搜索显示数据
-            showDatas: function (ids) {
-                if (!ids) {
-                    ids = 1;
-                }
-                if (!this.datas.searchId) {
-                    this.datas.searchId = null;
-                }
-                this.$http.get('/users/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
-                    usersDatas.datas = response.body;
-                    usersDatas.datas = response.body.rows;
-                    usersDatas.dataCount = response.body.count;
-                }).catch(function (response) {
-                    showTip(response);
-                });
-            }
-            ,
-            //删除选中的数据
-            deleteCheckBox: function () {
-                $('#my-confirm-more').modal({
-                    relatedTarget: this,
-                    onConfirm: function (options) {
-                        var checkBox = $("#user_list input[type='checkbox']");
-                        var delDatas = [];
-                        for (var i = 0; i < checkBox.length; i++) {
-                            if (checkBox[i].checked && i != 0) {
-                                delDatas.push(checkBox[i].value);
-                            }
-                        }
-                        Vue.http.post('users/remove', delDatas).then(function (response) {
-                            showTip('删除成功');
-                            usersDatas.showDatas(1);
-                        }).catch(function (response) {
-                            showTip(response);
-                        });
-                    },
-                    onCancel: function () {
-                    }
-                });
-            }
+    el: '#searchDatas',
+    data: {
+        datas: {
+            searchId: this.searchId
         }
-    })
-    ;
+    },
+    methods: {
+        //搜索显示数据
+        showDatas: function (ids) {
+            if (!ids) {
+                ids = 1;
+            }
+            if (!this.datas.searchId) {
+                this.datas.searchId = null;
+            }
+            this.$http.get('/users/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
+                usersDatas.datas = response.body.rows;
+                pageDatas.all = response.body.count;
+                usersDatas.dataCount = response.body.count;
+            }).catch(function (response) {
+                showTip(response);
+            });
+        },
+        //删除选中的数据
+        deleteCheckBox: function () {
+            $('#my-confirm-more').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    var checkBox = $("#user_list input[type='checkbox']");
+                    var delDatas = [];
+                    for (var i = 0; i < checkBox.length; i++) {
+                        if (checkBox[i].checked && i != 0) {
+                            delDatas.push(checkBox[i].value);
+                        }
+                    }
+                    Vue.http.post('users/remove', delDatas).then(function (response) {
+                        showTip('删除成功');
+                        usersDatas.showDatas(1);
+                    }).catch(function (response) {
+                        showTip(response);
+                    });
+                },
+                onCancel: function () {
+                }
+            });
+        },
+        //当点击新增时
+        addNewData: function () {
+            var $modal = $('#doc-modal-1');
+            usersDatas.statues = 'new';
+            //清空之前填写的数据
+            userNew.datas.user_account = '';
+            userNew.datas.user_realname = '';
+            userNew.datas.user_password = '';
+            userNew.datas.user_dept_id = '';
+            userNew.datas.user_duty_id = '';
+            userNew.datas.user_role_id = '';
+            userNew.datas.user_enable = '1';
+            userNew.datas.user_gender = '0';
+            userNew.datas.user_phone = '';
+            userNew.datas.user_birthday = '';
+            userNew.datas.user_email = '';
+            userNew.datas.user_remark = '';
+            userNew.datas.id = '';
+            $modal.modal();
+        }
+    }
+});
 //分页处理
 var pageDatas = new Vue({
     el: '#page_bar',
@@ -145,11 +166,7 @@ var pageDatas = new Vue({
     },
     //获取总数据条数
     created: function () {
-        this.$http.get('/users/allCounts/' + searchDatas.datas.searchId).then(function (response) {
-            this.all = response.body;
-        }).catch(function (response) {
-            showTip('报错了');
-        });
+        this.all = usersDatas.dataCount;
     },
     computed: {
         //显示有多少页
@@ -212,13 +229,13 @@ var userNew = new Vue({
             user_phone: '',
             user_birthday: '',
             user_email: '',
-            user_remark: ''
+            user_remark: '',
+            id: ''
         }
     },
     methods: {
         //提交数据
         saveDatas: function (modelId) {
-            //this.datas.user_account=usersDatas.editIds;
             //对填写进行验证
             if (this.datas.user_account == "") {
                 showTip('请输入用户名');
@@ -240,16 +257,20 @@ var userNew = new Vue({
                 $('#users_new')[0][4].focus();
                 return;
             }
-            var url = 'users';
-            // if(usersDatas.statues=='edit'){
-            //     url='users/update';
-            //     tip='修改成功';
-            // }
+            var url = 'users/' + usersDatas.statues;
             this.$http.post(url, this.datas).then(function (response) {
                 if (response.body == 'success') {
-                    showTip('保存成功');
+                    if (usersDatas.statues == 'new') {
+                        showTip('保存成功');
+                    } else {
+                        showTip('修改成功');
+                    }
                 } else {
-                    showTip('保存失败');
+                    if (usersDatas.statues == 'new') {
+                        showTip('保存失败');
+                    } else {
+                        showTip('修改失败');
+                    }
                 }
                 $('#' + modelId).modal('close');
                 usersDatas.showDatas(1);
@@ -259,25 +280,3 @@ var userNew = new Vue({
         }
     }
 });
-//当点击新增按钮时
-$(function () {
-    var $modal = $('#doc-modal-1');
-    $('#newData').click(function () {
-        // usersDatas.statues='new';
-        // //清空之前填写的数据
-        userNew.datas.user_account = '';
-        userNew.datas.user_realname = '';
-        userNew.datas.user_password = '';
-        userNew.datas.user_dept_id = '';
-        userNew.datas.user_duty_id = '';
-        userNew.datas.user_role_id = '';
-        userNew.datas.user_enable = '1';
-        userNew.datas.user_gender = '0';
-        userNew.datas.user_phone = '';
-        userNew.datas.user_birthday = '';
-        userNew.datas.user_email = '';
-        userNew.datas.user_remark = '';
-        $modal.modal();
-    })
-});
-

@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var config = require('config-lite');
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize(config.mysql);
 var users = require('../model/users');
-var Promise = require("bluebird");
 var success = "success";
 var error = "error";
 /**
@@ -39,26 +35,6 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
     });
 });
 /**
- * 返回数据条数
- * @param searchDatas 查询条件
- * @return 数据条数
- */
-router.get('/allCounts/:searchDatas', function (req, res, next) {
-    var searchDatas = req.params.searchDatas;
-    var objWhere = {};
-    if (searchDatas != '' && searchDatas != 'null' && searchDatas != 'undefined') {
-        objWhere = {user_realname: {$like: '%' + searchDatas + '%'}};
-    }
-    var objCondition = {
-        where: objWhere
-    }
-    users.findDatasCount(objCondition).then(function (result) {
-        res.send(result + '');
-    }).catch(function (e) {
-        res.send(0);
-    });
-});
-/**
  * 删除数据
  * @param id 要删除的ID
  */
@@ -81,7 +57,15 @@ router.post('/:id/remove', function (req, res, next) {
  * post[user_account,user_realname,user_password,user_dept_id,user_duty_id....]
  * @reutn success 成功   error 失败
  */
-router.post('/', function (req, res, next) {
+router.post('/:status', function (req, res, next) {
+    var status = req.params.status;
+    var id = req.body.id;
+    if (id != '' && id != 'null' && id != 'undefined') {
+        objWhere = {id: id};
+    }
+    var objCondition = {
+        where: objWhere
+    }
     var insertDatas = {
         user_account: req.body.user_account,//用户名
         user_realname: req.body.user_realname,//姓名
@@ -96,11 +80,22 @@ router.post('/', function (req, res, next) {
         user_email: req.body.user_email,//邮箱
         user_remark: req.body.user_remark//备注
     }
-    users.create(insertDatas).then(function (error, result) {
-        res.send(success);
-    }).catch(function (e) {
+    if (status == 'new') {
+        users.create(insertDatas).then(function (error, result) {
+            res.send(success);
+        }).catch(function (e) {
+            res.send(error);
+        });
+    } else if (status == 'edit') {
+        users.update(insertDatas, objCondition).then(function (error, result) {
+            res.send(success);
+        }).catch(function (e) {
+            res.send(error);
+        });
+    } else {
         res.send(error);
-    });
+    }
+
 });
 /**
  * 删除多条数据
@@ -109,12 +104,14 @@ router.post('/', function (req, res, next) {
  */
 router.post('/remove', function (req, res, next) {
     var delDatas = req.body;
+    console.log(delDatas+'wjszxli');
     if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
         objWhere = {id: delDatas};
     }
     var objCondition = {
         where: objWhere
     }
+    console.log(delDatas);
     users.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {

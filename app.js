@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var report =require('./routes/report');
 var reportRouter=require('./routes/reportRoutes');
 var catalogue=require('./routes/catalogue');
+var organize = require('./routes/organize');
 
 var app = express();
 
@@ -19,18 +20,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
-// session 中间件
-app.use(session({
-    name: config.session.key,// 设置 cookie 中保存 session id 的字段名称
-    secret: config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
-    cookie: {
-        maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
-    },
-    store:''
-}));
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,6 +30,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/reportRoutes',reportRouter);
 app.use('/catalogue',catalogue);
+//app.use('/organize',organize);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

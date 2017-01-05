@@ -28,15 +28,14 @@ module.exports = {
     findAndCountAll: function (obj) {
         return users.findAndCountAll(obj);
     },
-    //得到数据条数
-    findDatasCount: function (obj) {
-        return users.count(obj);
-    },
     //删除数据
     deleteDatas: function (obj) {
         return users.destroy(obj);
     },
     findOne: function (obj) {
         return users.findOne(obj);
+    },
+    update: function (obj, opt) {
+        return users.update(obj, opt);
     }
 }
