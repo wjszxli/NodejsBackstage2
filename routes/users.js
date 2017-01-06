@@ -104,6 +104,7 @@ router.post('/:status', function (req, res, next) {
  */
 router.post('/remove', function (req, res, next) {
     var delDatas = req.body;
+    console.log('hello');
     console.log(delDatas+'wjszxli');
     if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
         objWhere = {id: delDatas};
@@ -111,11 +112,10 @@ router.post('/remove', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    console.log(delDatas);
     users.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
-        res.send(error);
+        res.send(e);
     });
 });
 router.get('/:id/edit', function (req, res, next) {

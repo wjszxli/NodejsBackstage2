@@ -124,7 +124,8 @@ var searchDatas = new Vue({
                         }
                     }
                     Vue.http.post('users/remove', delDatas).then(function (response) {
-                        showTip('删除成功');
+                        showTip(response);
+                        console.log(response);
                         usersDatas.showDatas(1);
                     }).catch(function (response) {
                         showTip(response);
