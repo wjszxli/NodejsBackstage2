@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var organize = require('../model/organize');
+var role = require('../model/role');
 var success = "success";
 /**
  * 得到当前页
  */
 router.get('/', function (req, res, next) {
-    res.render('organize/index');
+    res.render('role/index');
 });
 /**
  * 返回一页的数据
@@ -29,7 +29,7 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
         offset: (parseInt(indexPages) - 1) * 10,
         limit: 10
     };
-    organize.findAndCountAll(objCondition).then(function (result) {
+    role.findAndCountAll(objCondition).then(function (result) {
         res.send(result);
     });
 });
@@ -45,7 +45,7 @@ router.get('/:id/remove', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    organize.deleteDatas(objCondition).then(function (result) {
+    role.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
         res.send(e);
@@ -67,28 +67,19 @@ router.post('/opter/:status', function (req, res, next) {
         where: objWhere
     }
     var insertDatas = {
-        F_ParentId: req.body.F_ParentId,//父级
-        F_Layers: req.body.F_Layers,//层次
-        F_EnCode: req.body.F_EnCode,//编码
-        F_FullName: req.body.F_FullName,//名称
-        F_ManagerName: req.body.F_ManagerName,//负责人
-        F_MobilePhone: req.body.F_MobilePhone,//手机
-        F_Email: req.body.F_Email,//邮箱
-        F_AllowEdit: req.body.F_AllowEdit,//允许编辑
-        F_AllowDelete: req.body.F_AllowDelete,//允许删除
-        F_DeleteMark: req.body.F_DeleteMark,//删除标志
-        F_EnabledMark: req.body.F_EnabledMark,//有效标志
-        F_DeleteUserId: req.body.F_DeleteUserId,//删除用户
-        F_Remark: req.body.F_Remark,//备注
+        F_RoleId: req.body.F_RoleId,//父级
+        F_RoleName: req.body.F_RoleName,//层次
+        F_Sort: req.body.F_Sort,//编码
+        F_Remark: req.body.F_Remark//名称
     }
     if (status == 'new') {
-        organize.create(insertDatas).then(function (result) {
+        role.create(insertDatas).then(function (result) {
             res.send(success);
         }).catch(function (e) {
             res.send(e);
         });
     } else if (status == 'edit') {
-        organize.update(insertDatas, objCondition).then(function (result) {
+        role.update(insertDatas, objCondition).then(function (result) {
             res.send(success);
         }).catch(function (e) {
             res.send(e);
@@ -111,7 +102,7 @@ router.post('/removeAll', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    organize.deleteDatas(objCondition).then(function (result) {
+    role.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
         res.send(e);
@@ -125,7 +116,7 @@ router.get('/:id/edit', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    organize.findOne(objCondition).then(function (result) {
+    role.findOne(objCondition).then(function (result) {
         res.send(result);
     }).catch(function (e) {
         res.send(e);

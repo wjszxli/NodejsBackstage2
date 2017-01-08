@@ -13,6 +13,7 @@ var report =require('./routes/report');
 var reportRouter=require('./routes/reportRoutes');
 var catalogue=require('./routes/catalogue');
 var organize = require('./routes/organize');
+var role = require('./routes/role');
 
 var app = express();
 
@@ -30,7 +31,9 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/reportRoutes',reportRouter);
 app.use('/catalogue',catalogue);
-//app.use('/organize',organize);
+app.use('/organize',organize);
+app.use('/role',role);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

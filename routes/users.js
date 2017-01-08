@@ -104,8 +104,6 @@ router.post('/:status', function (req, res, next) {
  */
 router.post('/remove', function (req, res, next) {
     var delDatas = req.body;
-    console.log('hello');
-    console.log(delDatas+'wjszxli');
     if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
         objWhere = {id: delDatas};
     }
