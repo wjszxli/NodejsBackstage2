@@ -2,21 +2,12 @@ var config = require('config-lite');
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize(config.mysql);
 
-var users = sequelize.define('rdm_users', {
-    user_account: Sequelize.STRING(50),
-    user_realname: Sequelize.STRING(100),
-    user_password: Sequelize.STRING(255),
-    user_dept_id: Sequelize.STRING(50),
-    user_duty_id: Sequelize.STRING(500),
-    user_role_id: Sequelize.STRING(50),
-    user_enable: Sequelize.BIGINT,
-    user_gender: Sequelize.BIGINT,
-    user_phone: Sequelize.STRING(50),
-    user_birthday: Sequelize.DATE,
-    user_email: Sequelize.STRING(50),
-    user_remark: Sequelize.STRING(500)
+var users = sequelize.define('rdm_role', {
+    F_RoleId: Sequelize.STRING(50),//权限Id
+    F_RoleName: Sequelize.STRING(255),//权限名称
+    F_Sort: Sequelize.INTEGER,//排序号
+    F_Remark:Sequelize.STRING(500)//备注
 });
-
 module.exports = {
     // 添加用户
     create: function (insertDatas) {
@@ -32,9 +23,11 @@ module.exports = {
     deleteDatas: function (obj) {
         return users.destroy(obj);
     },
+    //得到一条数据
     findOne: function (obj) {
         return users.findOne(obj);
     },
+    //更新一条数据
     update: function (obj, opt) {
         return users.update(obj, opt);
     }

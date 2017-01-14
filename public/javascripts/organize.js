@@ -1,6 +1,6 @@
 //页面加载时获取数据
-var usersDatas = new Vue({
-    el: '#user_list',
+var organizeDatas = new Vue({
+    el: '#organize_list',
     data: {
         datas: [],
         dataCount: 0,
@@ -11,7 +11,8 @@ var usersDatas = new Vue({
     },
     created: function () {
         //获取数据
-        this.$http.get('/users/datas/1/' + this.searchId).then(function (response) {
+        this.$http.get('/organize/datas/1/' + this.searchId).then(function (response) {
+            console.log(response.body.count);
             this.datas = response.body.rows;
             this.dataCount = response.body.count;
             pageDatas.all = response.body.count;
@@ -25,10 +26,10 @@ var usersDatas = new Vue({
             $('#my-confirm').modal({
                 relatedTarget: this,
                 onConfirm: function (options) {
-                    var url = 'users/' + ids + '/remove';
-                    Vue.http.post('users/' + ids + '/remove').then(function (response) {
+                    var url = 'organize/' + ids + '/remove';
+                    Vue.http.get('organize/' + ids + '/remove').then(function (response) {
                         showTip('删除成功');
-                        usersDatas.showDatas(1);
+                        organizeDatas.showDatas(1);
                         url = '';
                     }).catch(function (response) {
                         showTip(response);
@@ -43,7 +44,7 @@ var usersDatas = new Vue({
             if (!ids) {
                 ids = 1;
             }
-            this.$http.get('/users/datas/' + ids + '/' + usersDatas.searchId).then(function (response) {
+            this.$http.get('/organize/datas/' + ids + '/' + organizeDatas.searchId).then(function (response) {
                 this.datas = response.body.rows;
                 this.dataCount = response.body.count;
                 pageDatas.all = response.body.count;
@@ -52,25 +53,21 @@ var usersDatas = new Vue({
             });
         },
         //编辑数据
-        userEdit: function (ids) {
+        organizeEdit: function (ids) {
             this.editIds = ids;
-            usersDatas.statues = 'edit';
+            organizeDatas.statues = 'edit';
             var $modal = $('#doc-modal-1');
-            this.$http.get('/users/' + ids + '/edit').then(function (response) {
+            this.$http.get('/organize/' + ids + '/edit').then(function (response) {
                 console.log(response);
-                userNew.datas.user_account = response.data.user_account;
-                userNew.datas.user_realname = response.data.user_realname;
-                userNew.datas.user_password = response.data.user_password;
-                userNew.datas.user_dept_id = response.data.user_dept_id;
-                userNew.datas.user_duty_id = response.data.user_duty_id;
-                userNew.datas.user_role_id = response.data.user_role_id;
-                userNew.datas.user_enable = response.data.user_enable;
-                userNew.datas.user_gender = response.data.user_gender;
-                userNew.datas.user_phone = response.data.user_phone;
-                userNew.datas.user_birthday = new Date(response.data.user_birthday).getFullYear() + '-' + new Date(response.data.user_birthday).getMonth() + '-' + new Date(response.data.user_birthday).getDay();
-                userNew.datas.user_email = response.data.user_email;
-                userNew.datas.user_remark = response.data.user_remark;
-                userNew.datas.id = response.data.id;
+                organizeNew.datas.F_EnCode = response.data.F_EnCode;
+                organizeNew.datas.F_FullName = response.data.F_FullName;
+                organizeNew.datas.F_ManagerName = response.data.F_ManagerName;
+                organizeNew.datas.F_MobilePhone = response.data.F_MobilePhone;
+                organizeNew.datas.F_Email = response.data.F_Email;
+                organizeNew.datas.F_AllowEdit = response.data.F_AllowEdit;
+                organizeNew.datas.F_AllowDelete = response.data.F_AllowDelete;
+                organizeNew.datas.F_Remark = response.data.F_Remark;
+                organizeNew.datas.id = response.data.id;
                 //将窗口打开
                 $modal.modal();
             }).catch(function (response) {
@@ -79,7 +76,7 @@ var usersDatas = new Vue({
         },
         //全选与反选
         checkAll: function () {
-            var checkBox = $("#user_list input[type='checkbox']");
+            var checkBox = $("#organize_list input[type='checkbox']");
             for (var i = 0; i < checkBox.length; i++) {
                 checkBox[i].checked = checkBox[0].checked;
             }
@@ -103,10 +100,10 @@ var searchDatas = new Vue({
             if (!this.datas.searchId) {
                 this.datas.searchId = null;
             }
-            this.$http.get('/users/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
-                usersDatas.datas = response.body.rows;
+            this.$http.get('/organize/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
+                organizeDatas.datas = response.body.rows;
                 pageDatas.all = response.body.count;
-                usersDatas.dataCount = response.body.count;
+                organizeDatas.dataCount = response.body.count;
             }).catch(function (response) {
                 showTip(response);
             });
@@ -116,17 +113,17 @@ var searchDatas = new Vue({
             $('#my-confirm-more').modal({
                 relatedTarget: this,
                 onConfirm: function (options) {
-                    var checkBox = $("#user_list input[type='checkbox']");
+                    var checkBox = $("#organize_list input[type='checkbox']");
                     var delDatas = [];
                     for (var i = 0; i < checkBox.length; i++) {
                         if (checkBox[i].checked && i != 0) {
                             delDatas.push(checkBox[i].value);
                         }
                     }
-                    Vue.http.post('users/remove', delDatas).then(function (response) {
+                    Vue.http.post('organize/removeAll', delDatas).then(function (response) {
                         showTip(response);
                         console.log(response);
-                        usersDatas.showDatas(1);
+                        organizeDatas.showDatas(1);
                     }).catch(function (response) {
                         showTip(response);
                     });
@@ -138,21 +135,16 @@ var searchDatas = new Vue({
         //当点击新增时
         addNewData: function () {
             var $modal = $('#doc-modal-1');
-            usersDatas.statues = 'new';
+            organizeDatas.statues = 'new';
             //清空之前填写的数据
-            userNew.datas.user_account = '';
-            userNew.datas.user_realname = '';
-            userNew.datas.user_password = '';
-            userNew.datas.user_dept_id = '';
-            userNew.datas.user_duty_id = '';
-            userNew.datas.user_role_id = '';
-            userNew.datas.user_enable = '1';
-            userNew.datas.user_gender = '0';
-            userNew.datas.user_phone = '';
-            userNew.datas.user_birthday = '';
-            userNew.datas.user_email = '';
-            userNew.datas.user_remark = '';
-            userNew.datas.id = '';
+            organizeNew.datas.F_EnCode = '';
+            organizeNew.datas.F_FullName = '';
+            organizeNew.datas.F_ManagerName = '';
+            organizeNew.datas.F_MobilePhone = '';
+            organizeNew.datas.F_Email = '';
+            organizeNew.datas.F_AllowEdit = '1';
+            organizeNew.datas.F_AllowDelete = '1';
+            organizeNew.datas.F_Remark="";
             $modal.modal();
         }
     }
@@ -167,7 +159,7 @@ var pageDatas = new Vue({
     },
     //获取总数据条数
     created: function () {
-        this.all = usersDatas.dataCount;
+        this.all = organizeDatas.dataCount;
     },
     computed: {
         //显示有多少页
@@ -199,82 +191,62 @@ var pageDatas = new Vue({
         changePages: function (pageIndex) {
             if (pageIndex != this.cur) {
                 this.cur = pageIndex;
-                usersDatas.showDatas(pageIndex);
+                organizeDatas.showDatas(pageIndex);
             }
         },
         //点击上一页翻页
         prePages: function () {
             this.cur--;
-            usersDatas.showDatas(this.cur);
+            organizeDatas.showDatas(this.cur);
         },
         //点击下一页翻页
         nextPages: function () {
             this.cur++;
-            usersDatas.showDatas(this.cur);
+            organizeDatas.showDatas(this.cur);
         }
     }
 });
 //添加数据时的处理逻辑
-var userNew = new Vue({
-    el: '#user_new',
+var organizeNew = new Vue({
+    el: '#organize_new',
     data: {
         datas: { //数据列表中的数据
-            user_account: '',
-            user_realname: '',
-            user_password: '',
-            user_dept_id: '',
-            user_duty_id: '',
-            user_role_id: '',
-            user_enable: '0',
-            user_gender: '0',
-            user_phone: '',
-            user_birthday: '',
-            user_email: '',
-            user_remark: '',
+            F_ParentId: '',
+            F_Layers: '1',
+            F_EnCode: '',
+            F_FullName: '',
+            F_ManagerName: '',
+            F_MobilePhone: '',
+            F_Email: '',
+            F_AllowEdit: '',
+            F_AllowDelete: '',
+            F_DeleteMark: '0',
+            F_EnabledMark: '1',
+            F_DeleteorganizeId: '',
+            F_Remark:'',
             id: ''
         }
     },
     methods: {
         //提交数据
         saveDatas: function (modelId) {
-            //对填写进行验证
-            if (this.datas.user_account == "") {
-                showTip('请输入用户名');
-                $('#user_new')[0][1].focus();
-                return;
-            }
-            if (this.datas.user_realname == "") {
-                showTip('请输入姓名');
-                $('#users_new')[0][2].focus();
-                return;
-            }
-            if (this.datas.user_password == "") {
-                showTip('请输入密码');
-                $('#users_new')[0][3].focus();
-                return;
-            }
-            if (this.datas.user_dept_id == "") {
-                showTip('请选择部门');
-                $('#users_new')[0][4].focus();
-                return;
-            }
-            var url = 'users/' + usersDatas.statues;
+            var url = 'organize/opter/' + organizeDatas.statues;
             this.$http.post(url, this.datas).then(function (response) {
                 if (response.body == 'success') {
-                    if (usersDatas.statues == 'new') {
+                    if (organizeDatas.statues == 'new') {
                         showTip('保存成功');
                     } else {
                         showTip('修改成功');
                     }
                 } else {
-                    if (usersDatas.statues == 'new') {
+                    if (organizeDatas.statues == 'new') {
                         showTip('保存失败');
                     } else {
                         showTip('修改失败');
                     }
                 }
                 $('#' + modelId).modal('close');
-                usersDatas.showDatas(1);
+                organizeDatas.showDatas(1);
             }).catch(function (response) {
                 showTip(response);
             });

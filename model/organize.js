@@ -2,19 +2,20 @@ var config = require('config-lite');
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize(config.mysql);
 
-var users = sequelize.define('rdm_users', {
-    user_account: Sequelize.STRING(50),
-    user_realname: Sequelize.STRING(100),
-    user_password: Sequelize.STRING(255),
-    user_dept_id: Sequelize.STRING(50),
-    user_duty_id: Sequelize.STRING(500),
-    user_role_id: Sequelize.STRING(50),
-    user_enable: Sequelize.BIGINT,
-    user_gender: Sequelize.BIGINT,
-    user_phone: Sequelize.STRING(50),
-    user_birthday: Sequelize.DATE,
-    user_email: Sequelize.STRING(50),
-    user_remark: Sequelize.STRING(500)
+var users = sequelize.define('rdm_organize', {
+    F_ParentId: Sequelize.STRING(50),//父级
+    F_Layers: Sequelize.INTEGER,//层次
+    F_EnCode: Sequelize.STRING(50),//编码
+    F_FullName: Sequelize.STRING(255),//名称
+    F_ManagerName: Sequelize.STRING(255),//负责人
+    F_MobilePhone: Sequelize.STRING(20),//手机
+    F_Email: Sequelize.STRING(50),//邮箱
+    F_AllowEdit: Sequelize.STRING(50),//允许编辑
+    F_AllowDelete: Sequelize.INTEGER,//允许删除
+    F_DeleteMark: Sequelize.INTEGER,//删除标志
+    F_EnabledMark: Sequelize.INTEGER,//有效标志
+    F_DeleteUserId:Sequelize.STRING(50),//删除用户
+    F_Remark:Sequelize.STRING(500)//备注
 });
 
 module.exports = {

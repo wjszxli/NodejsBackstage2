@@ -4,26 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var flash = require('connect-flash');
+var config = require('config-lite');
+var session=require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var report =require('./routes/report');
 var reportRouter=require('./routes/reportRoutes');
 var catalogue=require('./routes/catalogue');
-
-
-// 使用 Mock
-var Mock = require('mockjs')
-var data = Mock.mock({
-    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
-    'list|1-10': [{
-        // 属性 id 是一个自增数，起始值为 1，每次增 1
-        'id|+1': 1
-    }]
-})
-// 输出结果
-console.log(JSON.stringify(data, null, 4));
+var organize = require('./routes/organize');
+var role = require('./routes/role');
 
 var app = express();
 
@@ -31,31 +21,19 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', index);
-// app.use('/users', users);
-// app.use('/reportRoutes',reportRouter);
-// app.use('/catalogue',catalogue);
+app.use('/', index);
+app.use('/users', users);
+app.use('/reportRoutes',reportRouter);
+app.use('/catalogue',catalogue);
+app.use('/organize',organize);
+app.use('/role',role);
 
-app.set(function() {
-    app.use(express.cookieParser('keyboard cat'));
-    app.use(express.session({ cookie: { maxAge: 60000 }}));
-    app.use(flash());
-});
-
-app.get('/', function(req, res){
-    // Set a flash message by passing the key, followed by the value, to req.flash().
-    req.flash('info', 'Flash is back!')
-    res.redirect('/');
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,6 +41,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

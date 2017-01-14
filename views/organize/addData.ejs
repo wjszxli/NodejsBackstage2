@@ -1,0 +1,78 @@
+<div class="am-modal-dialog">
+    <div class="am-modal-hd">新增用户
+        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-modal-bd">
+        <form class="am-form am-form-horizontal" method="post" id="organize_new">
+            <fieldset>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">部门编码</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_EnCode"
+                               placeholder="请部门编码" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">部门名称</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_FullName"
+                               placeholder="请输入部门名称" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">部门负责人</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_ManagerName"
+                               placeholder="请输入部门负责人" required>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">手机</label>
+                    <div class="am-u-sm-9">
+                        <input type="tel" class="am-input-sm" v-model="datas.F_MobilePhone"
+                               placeholder="请输入手机" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">邮箱</label>
+                    <div class="am-u-sm-9">
+                        <input type="email" class="am-input-sm" v-model="datas.F_Email"
+                               placeholder="请输入邮箱" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">允许编辑</label>
+                    <div class="am-u-sm-9">
+                        <select class=" am-input-sm" v-model="datas.F_AllowEdit"
+                                required>
+                            <option value="1">允许</option>
+                            <option value="0">不允许</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">允许删除</label>
+                    <div class="am-u-sm-9">
+                        <select class=" am-input-sm" v-model="datas.F_AllowDelete" required>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">备注</label>
+                    <div class="am-u-sm-9">
+                        <textarea rows="3" placeholder="请输入备注" v-model="datas.F_Remark"></textarea>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10 am-u-sm-offset-2">
+                        <button type="submit" class="am-btn am-btn-secondary am-radius" data-am-modal-close>取消</button>
+                        <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas('doc-modal-1')">提交</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="am-modal-dialog">
+    <div class="am-modal-hd">新增用户
+        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-modal-bd">
+        <form class="am-form am-form-horizontal" method="post" id="role_new">
+            <fieldset>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">权限编号</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_RoleId"
+                               placeholder="请输入权限编号" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">权限名称</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_RoleName"
+                               placeholder="请输入权限名称" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">排序号</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="am-input-sm" v-model="datas.F_Sort"
+                               placeholder="请输入排序号" required>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-u-sm-3">备注</label>
+                    <div class="am-u-sm-9">
+                        <textarea rows="3" placeholder="请输入备注" v-model="datas.F_Remark"></textarea>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10 am-u-sm-offset-2">
+                        <button type="submit" class="am-btn am-btn-secondary am-radius" data-am-modal-close>取消</button>
+                        <a class="am-btn am-btn-success am-radius" v-on:click="saveDatas('doc-modal-1')">提交</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

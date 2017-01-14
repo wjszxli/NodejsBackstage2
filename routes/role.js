@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var users = require('../model/users');
+var role = require('../model/role');
 var success = "success";
-var error = "error";
 /**
  * 得到当前页
  */
 router.get('/', function (req, res, next) {
-    res.render('users/index');
+    res.render('role/index');
 });
 /**
  * 返回一页的数据
@@ -23,14 +22,14 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
     var searchDatas = req.params.searchDatas;
     var objWhere = {}
     if (searchDatas != '' && searchDatas != 'null' && searchDatas != 'undefined') {
-        objWhere = {user_realname: {$like: '%' + searchDatas + '%'}}
+        objWhere = {F_FullName: {$like: '%' + searchDatas + '%'}}
     }
     var objCondition = {
         where: objWhere,
         offset: (parseInt(indexPages) - 1) * 10,
         limit: 10
     };
-    users.findAndCountAll(objCondition).then(function (result) {
+    role.findAndCountAll(objCondition).then(function (result) {
         res.send(result);
     });
 });
@@ -38,7 +37,7 @@ router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
  * 删除数据
  * @param id 要删除的ID
  */
-router.post('/:id/remove', function (req, res, next) {
+router.get('/:id/remove', function (req, res, next) {
     var id = req.params.id;
     if (id != '' && id != 'null' && id != 'undefined') {
         objWhere = {id: id};
@@ -46,10 +45,10 @@ router.post('/:id/remove', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    users.deleteDatas(objCondition).then(function (result) {
+    role.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
-        res.send(error);
+        res.send(e);
     });
 });
 /**
@@ -57,9 +56,10 @@ router.post('/:id/remove', function (req, res, next) {
  * post[user_account,user_realname,user_password,user_dept_id,user_duty_id....]
  * @reutn success 成功   error 失败
  */
-router.post('/:status', function (req, res, next) {
+router.post('/opter/:status', function (req, res, next) {
     var status = req.params.status;
     var id = req.body.id;
+    var objWhere = {};
     if (id != '' && id != 'null' && id != 'undefined') {
         objWhere = {id: id};
     }
@@ -67,50 +67,42 @@ router.post('/:status', function (req, res, next) {
         where: objWhere
     }
     var insertDatas = {
-        user_account: req.body.user_account,//用户名
-        user_realname: req.body.user_realname,//姓名
-        user_password: req.body.user_password,//密码
-        user_dept_id: req.body.user_dept_id,//部门编号
-        user_duty_id: req.body.user_duty_id,//岗位编号
-        user_role_id: req.body.user_role_id,//角色编号
-        user_enable: req.body.user_enable,//是否启用
-        user_gender: req.body.user_gender,//性别
-        user_phone: req.body.user_phone,//手机号码
-        user_birthday: req.body.user_birthday,//生日
-        user_email: req.body.user_email,//邮箱
-        user_remark: req.body.user_remark//备注
+        F_RoleId: req.body.F_RoleId,//父级
+        F_RoleName: req.body.F_RoleName,//层次
+        F_Sort: req.body.F_Sort,//编码
+        F_Remark: req.body.F_Remark//名称
     }
     if (status == 'new') {
-        users.create(insertDatas).then(function (error, result) {
+        role.create(insertDatas).then(function (result) {
             res.send(success);
         }).catch(function (e) {
-            res.send(error);
+            res.send(e);
         });
     } else if (status == 'edit') {
-        users.update(insertDatas, objCondition).then(function (error, result) {
+        role.update(insertDatas, objCondition).then(function (result) {
             res.send(success);
         }).catch(function (e) {
-            res.send(error);
+            res.send(e);
         });
     } else {
-        res.send(error);
+        res.send('传入的参数有误');
     }
-
 });
 /**
  * 删除多条数据
  * post[id,id,id,id,id,]
  * return count 数量
  */
-router.post('/remove', function (req, res, next) {
+router.post('/removeAll', function (req, res, next) {
     var delDatas = req.body;
+    console.log(delDatas);
     if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
         objWhere = {id: delDatas};
     }
     var objCondition = {
         where: objWhere
     }
-    users.deleteDatas(objCondition).then(function (result) {
+    role.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
         res.send(e);
@@ -124,10 +116,10 @@ router.get('/:id/edit', function (req, res, next) {
     var objCondition = {
         where: objWhere
     }
-    users.findOne(objCondition).then(function (result) {
+    role.findOne(objCondition).then(function (result) {
         res.send(result);
     }).catch(function (e) {
-        res.send(error);
+        res.send(e);
     });
 });
 module.exports = router;

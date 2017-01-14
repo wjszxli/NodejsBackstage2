@@ -1,4 +1,4 @@
-<div class="am-g" id="searchDatas" >
+<div class="am-g" id="searchDatas">
     <div class="am-u-sm-12 am-u-md-6">
         <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs">
@@ -12,44 +12,38 @@
         </div>
     </div>
     <div class="am-u-sm-12 am-u-md-3">
-        <div class="am-input-group am-input-group-sm" >
-            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入姓名搜索">
+        <div class="am-input-group am-input-group-sm">
+            <input type="text" v-model="datas.searchId" class="am-form-field" placeholder="输入部门名称搜索">
             <span class="am-input-group-btn">
-            <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas()" >搜索</button>
+            <button class="am-btn am-btn-default" type="button" v-on:click="showDatas()">搜索</button>
           </span>
         </div>
     </div>
 </div>
 <div class="am-g">
     <div class="am-u-sm-12">
-        <form class="am-form" id="user_list">
+        <form class="am-form" id="role_list">
             <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius ">
                 <thead>
                 <tr>
                     <th class="table-check"><input type="checkbox" v-on:click="checkAll()"/></th>
-                    <th>用户名</th>
-                    <th>姓名</th>
-                    <th>部门</th>
-                    <th>岗位</th>
-                    <th>手机</th>
-                    <th>是否启用</th>
+                    <th>权限编码</th>
+                    <th>权限名称</th>
+                    <th>排序号</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="items in datas" :key="items.id">
-                    <td><input type="checkbox"  v-bind:value="items.id" v-model="checkedIds" /></td>
-                    <td v-text="items.user_account"></td>
-                    <td><a href="#" v-text="items.user_realname" ></a></td>
-                    <td><a href="#" v-text="items.user_dept_id" ></a></td>
-                    <td><a href="#" v-text="items.user_duty_id"></a></td>
-                    <td><a href="#" v-text="items.user_phone"></a></td>
-                    <td><a href="#" v-if="items.user_enable == '0'" >停用</a>
-                        <a href="#" v-else >启用</a></td>
+                    <td><input type="checkbox" v-bind:value="items.id" v-model="checkedIds"/></td>
+                    <td v-text="items.F_RoleId"></td>
+                    <td><a href="#" v-text="items.F_RoleName"></a></td>
+                    <td><a href="#" v-text="items.F_Sort"></a></td>
                     <td>
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs">
-                                <a class="am-btn am-btn-primary" role="button" v-on:click="userEdit(items.id)" ><span
+                                <a class="am-btn am-btn-primary" role="button"
+                                   v-on:click="role_Edit(items.id)"><span
                                             class="am-icon-pencil-square-o"></span> 编辑
                                 </a>
                                 <a class="am-btn am-btn-danger" href="#"
