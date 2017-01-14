@@ -12,7 +12,6 @@ var organizeDatas = new Vue({
     created: function () {
         //获取数据
         this.$http.get('/organize/datas/1/' + this.searchId).then(function (response) {
-            console.log(response.body.count);
             this.datas = response.body.rows;
             this.dataCount = response.body.count;
             pageDatas.all = response.body.count;

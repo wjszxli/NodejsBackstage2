@@ -49,7 +49,7 @@ router.post('/:id/remove', function (req, res, next) {
     users.deleteDatas(objCondition).then(function (result) {
         res.send(result + '');
     }).catch(function (e) {
-        res.send(error);
+        res.send(e);
     });
 });
 /**

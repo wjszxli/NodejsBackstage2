@@ -8,29 +8,25 @@
                 <div class="am-form-group">
                     <label for="reportId" class="am-u-sm-3">目录编号</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm"  v-model="datas.catalogue_id"
-                               placeholder="请输入目录编号" disabled required>
+                        <input type="text" class="am-input-sm"  v-model="datas.F_id" placeholder="请输入目录编号" disabled required>
                     </div>
                 </div>
-
                 <div class="am-form-group">
                     <label for="formType" class="am-u-sm-3">目录名称</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.catalogue_name"
-                                placeholder="请输入目录名称" required>
+                        <input type="text" class="am-input-sm" v-model="datas.F_name" placeholder="请输入目录名称" required>
                     </div>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-ipt-3" class="am-u-sm-3">目录图标</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.catalogue_icon"
-                                placeholder="请输入目录图标" required>
+                        <input type="text" class="am-input-sm" v-model="datas.F_icon" placeholder="请输入目录图标" required>
                     </div>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-ipt-4" class="am-u-sm-3">重点与否</label>
                     <div class="am-u-sm-9">
-                        <select class=" am-input-sm"  v-model="datas.catalogue_start"
+                        <select class=" am-input-sm"  v-model="datas.F_start"
                                 required>
                             <option value="0">非重点目录</option>
                             <option value="1">重点目录</option>
@@ -40,7 +36,7 @@
                 <div class="am-form-group">
                     <label for="doc-ipt-4" class="am-u-sm-3">父级</label>
                     <div class="am-u-sm-9">
-                        <select class=" am-input-sm"  v-model="datas.catalogue_start"
+                        <select class=" am-input-sm"  v-model="datas.F_parent"
                                 required>
                             <option value="0">非重点目录</option>
                             <option value="1">重点目录</option>
@@ -48,23 +44,31 @@
                     </div>
                 </div>
                 <div class="am-form-group">
+                    <label for="doc-ipt-4" class="am-u-sm-3">允许删除</label>
+                    <div class="am-u-sm-9">
+                        <select class=" am-input-sm"  v-model="datas.F_AllowDelete"
+                                required>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-form-group">
                     <label for="doc-ipt-3" class="am-u-sm-3">链接地址</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm" v-model="datas.catalogue_icon"
-                                placeholder="请输入链接地址" required>
+                        <input type="text" class="am-input-sm" v-model="datas.F_url" placeholder="请输入链接地址" required>
                     </div>
                 </div>
                 <div class="am-form-group">
                     <label for="reportStatistics" class="am-u-sm-3">备注</label>
                     <div class="am-u-sm-9">
-                        <textarea rows="3" placeholder="请输入备注" v-model="datas.catalogue_remark"></textarea>
+                        <textarea rows="3" placeholder="请输入备注" v-model="datas.F_remark"></textarea>
                     </div>
                 </div>
                 <div class="am-form-group">
                     <label class="am-u-sm-3">排序号</label>
                     <div class="am-u-sm-9">
-                        <input type="text" class="am-input-sm"  v-model="datas.catalogue_sort"
-                               placeholder="请输入排序号" required>
+                        <input type="text" class="am-input-sm"  v-model="datas.F_sort" placeholder="请输入排序号" required>
                     </div>
                 </div>
                 <div class="am-form-group">

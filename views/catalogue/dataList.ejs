@@ -16,7 +16,7 @@
     </div>
     <div class="am-u-sm-12 am-u-md-3">
         <div class="am-input-group am-input-group-sm" >
-            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入报表名称搜索">
+            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入目录名称搜索">
             <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas(1)" >搜索</button>
           </span>
@@ -42,13 +42,13 @@
                 <tbody>
                 <tr v-for="items in datas" :key="items.id">
                     <td><input type="checkbox"  v-bind:value="items.id" v-model="checkedIds" /></td>
-                    <td v-text="items.catalogue_id"></td>
-                    <td><a href="#" v-text="items.catalogue_name" ></a></td>
-                    <td><a href="#" v-text="items.catalogue_icon" ></a></td>
-                    <td><a href="#" v-if="items.catalogue_start === '1'" >重点目录</a>
+                    <td v-text="items.F_id"></td>
+                    <td><a href="#" v-text="items.F_name" ></a></td>
+                    <td><a href="#" v-text="items.F_icon" ></a></td>
+                    <td><a href="#" v-if="items.F_start === '1'" >重点目录</a>
                         <a href="#" v-else >非重点目录</a></td>
-                    <td><a href="#" v-text="items.catalogue_remark"></a></td>
-                    <td><a href="#" v-text="items.catalogue_sort"></a></td>
+                    <td><a href="#" v-text="items.F_remark"></a></td>
+                    <td><a href="#" v-text="items.F_sort"></a></td>
                     <td>
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs">

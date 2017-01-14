@@ -52,16 +52,5 @@
 <!--引入底部页-->
 <%- include('../footer') %>
 <script src="../javascripts/users.js"></script>
-<script src="../javascripts/push.min.js"></script>
-<script>
-    Push.create("提示信息", {
-        body: "保存成功'?",
-        timeout: 3000,
-        onClick: function () {
-            window.focus();
-            this.close();
-        }
-    });
-</script>
 </body>
 </html>

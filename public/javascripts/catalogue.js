@@ -11,27 +11,13 @@ var catalogueDatas = new Vue({
     },
     created: function () {
         //获取数据
-        {
-            this.$http.get('/catalogue/datas/1/'+this.searchId).then((response) => {
-                this.datas = response.body;
-        },
-            (response) =>
-            {
-                showTip('报错了');
-            }
-        );
-        }
-        //获取数据条数
-        {
-            this.$http.get('/catalogue/allCounts/'+this.searchId).then((response) => {
-                this.dataCount = response.body[0].allCounts;
-        },
-            (response) =>
-            {
-                showTip('报错了');
-            }
-        );
-        }
+        this.$http.get('/catalogue/datas/1/' + this.searchId).then(function (response) {
+            this.datas = response.body.rows;
+            this.dataCount = response.body.count;
+            pageDatas.all = response.body.count;
+        }).catch(function (response) {
+            showTip(response);
+        });
     },
     methods: {
         //删除数据
@@ -39,22 +25,14 @@ var catalogueDatas = new Vue({
             $('#my-confirm').modal({
                 relatedTarget: this,
                 onConfirm: function (options) {
-                    var url = 'catalogue/' + ids + '/remove';
-                    showTip(url);
-                    {
-                        Vue.http.post('catalogue/' + ids + '/remove').then((response) => {
-                            showTip(response);
-                            showTip('删除成功');
+                    var url='catalogue/' + ids + '/remove';
+                    Vue.http.get(url).then(function (response) {
+                        showTip('删除成功');
                         catalogueDatas.showDatas(1);
-                        url='';
-                        },
-                        (response) =>
-                        {
-                            showTip('报错了');
-                        }
-                    )
-                        ;
-                    }
+                        url = '';
+                    }).catch(function (response) {
+                        showTip(response);
+                    });
                 },
                 onCancel: function () {
                 }
@@ -65,45 +43,31 @@ var catalogueDatas = new Vue({
             if (!ids) {
                 ids = 1;
             }
-            {
-                this.$http.get('/catalogue/datas/' + ids+'/'+catalogueDatas.searchId).then((response) => {
-                    this.datas = response.body;
-            },
-                (response) =>
-                {
-                    showTip('报错了');
-                }
-            );
-            }
-            //获取数据条数
-            {
-                this.$http.get('/catalogue/allCounts/'+catalogueDatas.searchId).then((response) => {
-                    this.dataCount = response.body[0].allCounts;
-            },
-                (response) =>
-                {
-                    showTip('报错了');
-                }
-            );
-            }
+            this.$http.get('/catalogue/datas/' + ids + '/' + catalogueDatas.searchId).then(function (response) {
+                this.datas = response.body.rows;
+                this.dataCount = response.body.count;
+                pageDatas.all = response.body.count;
+            }).catch(function (response) {
+                showTip(response);
+            });
         },
         //编辑数据
         reportEdit:function (ids) {
             this.editIds=ids;
             catalogueDatas.statues='edit';
             var $modal = $('#doc-modal-1');
-            this.$http.get('/catalogue/'+ids+'/edit').then((response)=>{
+            this.$http.get('/catalogue/'+ids+'/edit').then(function (response) {
                 //重新赋值
-            catalogueNew.datas.catalogue_id= response.body[0].catalogue_id;
-            catalogueNew.datas.catalogue_name= response.body[0].catalogue_name;
-            catalogueNew.datas.catalogue_icon= response.body[0].catalogue_icon;
-            catalogueNew.datas.catalogue_start= response.body[0].catalogue_start;
-            catalogueNew.datas.catalogue_remark= response.body[0].catalogue_remark;
-            catalogueNew.datas.catalogue_sort=response.body[0].catalogue_sort;
-            //将窗口打开
-            $modal.modal();
-            },(response)=>{
-                showTip('报错了');
+                catalogueNew.datas.F_id= response.body.F_id;
+                catalogueNew.datas.F_name= response.body.F_name;
+                catalogueNew.datas.F_icon= response.body.F_icon;
+                catalogueNew.datas.F_start= response.body.F_start;
+                catalogueNew.datas.F_remark= response.body.F_remark;
+                catalogueNew.datas.F_sort=response.body.F_sort;
+                catalogueNew.datas.F_parent=response.body.F_parent;
+                catalogueNew.datas.F_url=response.body.F_url;
+                catalogueNew.datas.F_AllowDelete=response.body.F_AllowDelete;
+                $modal.modal();
             });
         },
         //全选与反选
@@ -126,52 +90,39 @@ var searchDatas=new Vue({
     methods:{
         //搜索显示数据
         showDatas: function (ids) {
-
             if (!ids) {
                 ids = 1;
             }
-            {
-                this.$http.get('/catalogue/datas/' + ids+'/'+this.datas.searchId).then((response) => {
-                    catalogueDatas.datas = response.body;
-            },
-                (response) =>
-                {
-                    showTip('报错了');
-                }
-            );
+            if (!this.datas.searchId) {
+                this.datas.searchId = null;
             }
-            //获取数据条数
-            {
-                this.$http.get('/catalogue/allCounts/'+this.datas.searchId).then((response) => {
-                    catalogueDatas.dataCount = response.body[0].allCounts;
-                pageDatas.all=response.body[0].allCounts;
-            },
-                (response) =>
-                {
-                    showTip('报错了');
-                }
-            );
-            }
+            this.$http.get('/catalogue/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
+                console.log(response);
+                catalogueDatas.datas = response.body.rows;
+                pageDatas.all = response.body.count;
+                catalogueDatas.dataCount = response.body.count;
+            }).catch(function (response) {
+                console.log(response);
+                showTip(response);
+            });
         },
         //删除选中的数据
         deleteCheckBox:function () {
             $('#my-confirm-more').modal({
                 relatedTarget: this,
                 onConfirm: function (options) {
-                    var checkBox=$("#catalogue_list input[type='checkbox']");
-                    var delDatas=[];
-                    for(var i=0;i<checkBox.length;i++){
-                        if(checkBox[i].checked&&i!=0){
+                    var checkBox = $("#catalogue_list input[type='checkbox']");
+                    var delDatas = [];
+                    for (var i = 0; i < checkBox.length; i++) {
+                        if (checkBox[i].checked && i != 0) {
                             delDatas.push(checkBox[i].value);
                         }
                     }
-                    Vue.http.post('catalogue/remove', delDatas)
-                        .then((response) => {
-                        showTip('删除成功');
-                    catalogueDatas.showDatas(1);
-                },(response) =>
-                    {
-                        showTip('报错了');
+                    Vue.http.post('catalogue/remove', delDatas).then(function (response) {
+                        showTip(response);
+                        catalogueDatas.showDatas(1);
+                    }).catch(function (response) {
+                        showTip(response);
                     });
                 },
                 onCancel: function () {
@@ -190,17 +141,7 @@ var pageDatas = new Vue({
     },
     //获取总数据条数
     created: function () {
-        {
-            this.$http.get('/catalogue/allCounts/'+searchDatas.datas.searchId).then((response) => {
-                this.all = response.body[0].allCounts;
-        },
-            (response) =>
-            {
-                showTip('报错了');
-            }
-        )
-            ;
-        }
+        this.all = catalogueDatas.dataCount;
     },
     computed: {
         //显示有多少页
@@ -252,13 +193,15 @@ var catalogueNew = new Vue({
     el: '#catalogue_new',
     data: {
         datas:{ //数据列表中的数据
-            catalogue_id: '',
-            catalogue_name: '',
-            catalogue_icon: '',
-            catalogue_start: '',
-            catalogue_remark: '',
-            catalogue_sort: '',
-            catalogue_ifadmin:'',
+            F_id: '',
+            F_name: '',
+            F_icon: '',
+            F_start: '',
+            F_remark: '',
+            F_sort: '',
+            F_parent:'',
+            F_url:'',
+            F_AllowDelete:'',
             id:''
         }
     },
@@ -267,46 +210,15 @@ var catalogueNew = new Vue({
         saveDatas: function (modelId) {
             this.datas.id=catalogueDatas.editIds;
             //对填写进行验证
-            if(this.datas.catalogue_id==""){
-                showTip('请输入目录编号');
-                $('#catalogue_new')[0][1].focus();
-                return;
-            }
-            if(this.datas.catalogue_name==""){
-                showTip('请输入目录名称');
-                $('#catalogue_new')[0][2].focus();
-                return;
-            }
-            if(this.datas.catalogue_icon==""){
-                showTip('请输入目录图标');
-                $('#catalogue_new')[0][3].focus();
-                return;
-            }
-            if(this.datas.catalogue_start==""){
-                showTip('请选择重点与否');
-                $('#catalogue_new')[0][4].focus();
-                return;
-            }
-            if(this.datas.catalogue_sort==""){
-                showTip('请输入排序号');
-                $('#catalogue_new')[0][6].focus();
-                return;
-            }
-            var url='catalogue';
+            var url='catalogue/'+catalogueDatas.statues;
             var tip='保存成功';
-            if(catalogueDatas.statues=='edit'){
-                url='catalogue/update';
-                tip='修改成功';
-            }
-            this.$http.post(url, this.datas)
-                .then((response) => {
+            this.$http.post(url, this.datas).then(function (response) {
                 showTip(tip);
                 $('#' + modelId).modal('close');
-                 catalogueDatas.showDatas(1);
-            },(response) =>
-            {
-                showTip('报错了');
-            });
+                catalogueDatas.showDatas(1);
+            }).catch(function (e) {
+                showTip(e);
+            })
         }
     }
 });
@@ -316,42 +228,39 @@ $(function() {
     $('#newData').click(function () {
         catalogueDatas.statues='new';
         //清空之前填写的数据
-        catalogueNew.datas.catalogue_id= '';
-        catalogueNew.datas.catalogue_name= '';
-        catalogueNew.datas.catalogue_icon= '';
-        catalogueNew.datas.catalogue_start= '';
-        catalogueNew.datas.catalogue_remark= '';
+        catalogueNew.datas.F_name= '';
+        catalogueNew.datas.F_icon= '';
+        catalogueNew.datas.F_start= '0';
+        catalogueNew.datas.F_parent= '';
+        catalogueNew.datas.F_url= '';
+        catalogueNew.datas.F_AllowDelete= '1';
+        catalogueNew.datas.F_remark= '';
         //获取最大的排序号
-        {
-            Vue.http.get('/catalogue/getSort').then((response) => {
-                catalogueNew.datas.catalogue_sort=response.body[0].catalogue_sort;
-        },
-            (response) =>
-            {
-                showTip('报错了');
+        Vue.http.get('/catalogue/getSort').then(function (response) {
+            if(isNaN(parseInt(response.body))){
+                catalogueNew.datas.F_sort=1;
+            }else{
+                catalogueNew.datas.F_sort=response.body;
             }
-        )
-            ;
-        }
+        }).catch(function (e) {
+            showTip(e);
+        });
         //获取目录编号
-        {
-            Vue.http.get('/catalogue/catalogueId').then((response) => {
-                var level=4;
-                level=4-response.body[0].catalogue_id;
-                console.log(response.body[0].catalogue_id);
-                var catalogue_id=response.body[0].catalogue_id;
-                for(var i=0;i<level;i++){
-                    catalogue_id='0'+catalogue_id;
-                }
-                catalogueNew.datas.catalogue_id=catalogue_id;
-        },
-            (response) =>
-            {
-                showTip('报错了');
+        Vue.http.get('/catalogue/catalogueId').then(function (response) {
+            var level=4;
+            level=4-response.body.length;
+            var F_id=response.body;
+            for(var i=0;i<level;i++){
+                F_id='0'+F_id;
             }
-        )
-            ;
-        }
+            if(isNaN(parseInt(response.body))){
+                catalogueNew.datas.F_id='0001';
+            }else{
+                catalogueNew.datas.F_id=F_id;
+            }
+        }).catch(function (e) {
+            showTip(e);
+        });
         $modal.modal();
     })
 });
