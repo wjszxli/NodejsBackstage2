@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="public/stylesheets/amazeui.min.css"/>
+    <link rel="stylesheet" href="public/stylesheets/admin.css">
+    <link rel="stylesheet" href="public/stylesheets/messenger.css">
+    <link rel="stylesheet" href="public/stylesheets/messenger-theme-air.css">
+</head>
+<body>
+<form action="" class="am-form" id="form-with-tooltip">
+    <fieldset>
+        <legend>定义 Tooltip</legend>
+        <div class="am-form-group">
+            <label for="doc-vld-name-2-0">用户名：</label>
+            <input type="text" id="doc-vld-name-2-0" minlength="3"
+                   placeholder="输入用户名（至少 3 个字符）" required/>
+        </div>
+
+        <div class="am-form-group">
+            <label for="doc-vld-pwd-1-0">密码：</label>
+            <input type="password" id="doc-vld-pwd-1-0" placeholder="6 位数字的银行卡密码" pattern="^\d{6}$" required data-foolish-msg="把 IQ 卡密码交出来！"/>
+        </div>
+
+        <button class="am-btn am-btn-secondary" type="submit" v-on:click="saveDatas">提交</button>
+
+    </fieldset>
+</form>
+
+<style>
+    #vld-tooltip {
+        position: absolute;
+        z-index: 1000;
+        padding: 5px 10px;
+        background: #F37B1D;
+        min-width: 150px;
+        color: #fff;
+        transition: all 0.15s;
+        box-shadow: 0 0 5px rgba(0,0,0,.15);
+        display: none;
+    }
+
+    #vld-tooltip:before {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -8px;
+        content: "";
+        border-width: 0 8px 8px;
+        border-color: transparent transparent #F37B1D;
+        border-style: none inset solid;
+    }
+</style>
+
+
+<!--[if lt IE 9]>
+<!--<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>-->
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<!--<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>-->
+<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--<script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>-->
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="public/javascripts/amazeui.min.js"></script>
+<script src="public/javascripts/app.js"></script>
+<!--<script src="https://unpkg.com/vue@2.1.4/dist/vue.min.js"></script>-->
+<script src="//cdn.bootcss.com/vue/2.1.4/vue.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>-->
+<script src="//cdn.bootcss.com/vue-resource/1.0.3/vue-resource.min.js"></script>
+<script>
+    //添加数据时的处理逻辑
+    var userNew = new Vue({
+        el: '#form-with-tooltip',
+        data: {
+            datas: { //数据列表中的数据
+                user_account: '',
+                user_realname: '',
+                user_password: '',
+                user_dept_id: '',
+                user_duty_id: '',
+                user_role_id: '',
+                user_enable: '0',
+                user_gender: '0',
+                user_phone: '',
+                user_birthday: '',
+                user_email: '',
+                user_remark: '',
+                id: ''
+            }
+        },
+        methods: {
+            //提交数据
+            saveDatas: function (modelId) {
+                var $form = $('#form-with-tooltip');
+                var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+                $tooltip.appendTo(document.body);
+                $form.validator();
+
+                var validator = $form.data('amui.validator');
+                $form.on('focusin focusout', '.am-form-error input', function(e) {
+                    if (e.type === 'focusin') {
+                        var $this = $(this);
+                        var offset = $this.offset();
+                        var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+
+                        $tooltip.text(msg).show().css({
+                            left: offset.left + 10,
+                            top: offset.top + $(this).outerHeight() + 10
+                        });
+                        console.log('wjszxli');
+                    } else {
+                        $tooltip.hide();
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

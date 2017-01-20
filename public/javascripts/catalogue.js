@@ -97,12 +97,10 @@ var searchDatas=new Vue({
                 this.datas.searchId = null;
             }
             this.$http.get('/catalogue/datas/' + ids + '/' + this.datas.searchId).then(function (response) {
-                console.log(response);
                 catalogueDatas.datas = response.body.rows;
                 pageDatas.all = response.body.count;
                 catalogueDatas.dataCount = response.body.count;
             }).catch(function (response) {
-                console.log(response);
                 showTip(response);
             });
         },
@@ -208,17 +206,42 @@ var catalogueNew = new Vue({
     methods: {
         //提交数据
         saveDatas: function (modelId) {
-            this.datas.id=catalogueDatas.editIds;
-            //对填写进行验证
-            var url='catalogue/'+catalogueDatas.statues;
-            var tip='保存成功';
-            this.$http.post(url, this.datas).then(function (response) {
-                showTip(tip);
-                $('#' + modelId).modal('close');
-                catalogueDatas.showDatas(1);
-            }).catch(function (e) {
-                showTip(e);
-            })
+            var flag=true;
+            var $form = $('#catalogue_new');
+            var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+            $tooltip.appendTo(document.body);
+            $form.validator();
+            var validator = $form.data('amui.validator');
+            $form.on('focusin focusout', '.am-form-error input', function(e) {
+                if (e.type === 'focusin') {
+                    var $this = $(this);
+                    var offset = $this.offset();
+                    var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+                    $tooltip.text(msg).show().css({
+                        left: offset.left + 10,
+                        top: offset.top + $(this).outerHeight() + 10
+                    });
+                    flag=false;
+                } else {
+                    flag=true;
+                    $tooltip.hide();
+                }
+            });
+            console.log($('.am-input-sm.am-field-error.am-active'));
+            // if(flag){
+            //     $('#vld-tooltip').css('display','none');
+            //     this.datas.id=catalogueDatas.editIds;
+            //     //对填写进行验证
+            //     var url='catalogue/'+catalogueDatas.statues;
+            //     var tip='保存成功';
+            //     this.$http.post(url, this.datas).then(function (response) {
+            //         showTip(tip);
+            //         $('#' + modelId).modal('close');
+            //         catalogueDatas.showDatas(1);
+            //     }).catch(function (e) {
+            //         showTip(e);
+            //     })
+            // }
         }
     }
 });
