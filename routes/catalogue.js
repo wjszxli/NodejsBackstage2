@@ -60,7 +60,7 @@ router.get('/:id/remove', function (req, res, next) {
  * post[user_account,user_realname,user_password,user_dept_id,user_duty_id....]
  * @reutn success 成功   error 失败
  */
-router.post('/:status', function (req, res, next) {
+router.post('/opter/:status', function (req, res, next) {
     var status = req.params.status;
     var id = req.body.id;
     var objWhere="";
@@ -101,8 +101,10 @@ router.post('/:status', function (req, res, next) {
  * post[id,id,id,id,id,]
  * return count 数量
  */
-router.post('/remove', function (req, res, next) {
+
+router.post('/removeAll', function (req, res, next) {
     var delDatas = req.body;
+    var objWhere,where;
     if (delDatas != '' && delDatas != 'null' && delDatas != 'undefined' && delDatas.length > 0) {
         objWhere = {id: delDatas};
     }

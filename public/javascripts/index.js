@@ -35,16 +35,14 @@ var indexIfram = new Vue({
     },
     method:{
         changeIfr:function () {
-            alert('wjszxli');
         }
     }
 });
 
 function changeIfr(strIfr) {
     strIfr="/"+strIfr;
-    var height =$(document.body).height()-100;
+    var height =$(document.body).height()-$(document.body).height()*0.08;
     $('#div_ifram').empty();
     var str = '<iframe name=\"theMain\" id=\"theMain\" width=\"100%\" height=\"'+height+'\" allowfullscreen mozallowfullscreen webkitallowfullscreen frameborder=\"0\" src=\"'+strIfr+'\" scrolling="no"></iframe>';
-    console.log(str);
     $('#div_ifram').html(str);
 }

@@ -116,7 +116,7 @@ var searchDatas=new Vue({
                             delDatas.push(checkBox[i].value);
                         }
                     }
-                    Vue.http.post('catalogue/remove', delDatas).then(function (response) {
+                    Vue.http.post('catalogue/removeAll', delDatas).then(function (response) {
                         showTip(response);
                         catalogueDatas.showDatas(1);
                     }).catch(function (response) {
@@ -212,6 +212,7 @@ var catalogueNew = new Vue({
             $tooltip.appendTo(document.body);
             $form.validator();
             var validator = $form.data('amui.validator');
+            var i=0;
             $form.on('focusin focusout', '.am-form-error input', function(e) {
                 if (e.type === 'focusin') {
                     var $this = $(this);
@@ -221,13 +222,14 @@ var catalogueNew = new Vue({
                         left: offset.left + 10,
                         top: offset.top + $(this).outerHeight() + 10
                     });
-                    flag=false;
+                    i++;
                 } else {
-                    flag=true;
                     $tooltip.hide();
                 }
             });
-            console.log($('.am-input-sm.am-field-error.am-active'));
+            console.log(i);
+            //console.log($('.am-input-sm.am-field-error.am-active'));
+            console.log($('.am-input-sm')[1]);
             // if(flag){
             //     $('#vld-tooltip').css('display','none');
             //     this.datas.id=catalogueDatas.editIds;
