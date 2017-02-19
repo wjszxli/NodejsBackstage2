@@ -1,0 +1,70 @@
+<div class="am-g" id="searchDatas" >
+    <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+                <button type="button" class="am-btn am-btn-primary" v-on:click="addNewData">
+                    <span class="am-icon-plus"></span> 新增
+                </button>
+                <button type="button" class="am-btn am-btn-danger" v-on:click="deleteCheckBox"><span
+                            class="am-icon-trash-o"></span> 删除
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-input-group am-input-group-sm" >
+            <input type="text" v-model="datas.searchId" class="am-form-field"  placeholder="输入姓名搜索">
+            <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button"  v-on:click="showDatas()" >搜索</button>
+          </span>
+        </div>
+    </div>
+</div>
+<div class="am-g">
+    <div class="am-u-sm-12">
+        <form class="am-form" id="user_list">
+            <div class="am-scrollable-horizontal">
+                <h2 class="am-titlebar-title " style="text-align: center">
+                    栏目标题
+                </h2>
+            <table class="am-table am-table-striped am-table-hover table-main am-table-bordered am-table-radius am-text-nowrap ">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>岗位</th>
+                    <th>手机</th>
+                    <th>是否启用</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="items in datas" :key="items.id">
+                    <td v-text="items.user_account"></td>
+                    <td><a href="#" v-text="items.user_realname" ></a></td>
+                    <td><a href="#" v-text="items.user_dept_id" ></a></td>
+                    <td><a href="#" v-text="items.user_duty_id"></a></td>
+                    <td><a href="#" v-text="items.user_phone"></a></td>
+                    <td><a href="#" v-if="items.user_enable == '0'" >停用</a>
+                        <a href="#" v-else >启用</a></td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="am-cf">
+                共 <label v-text="dataCount"></label> 条记录
+            </div>
+        </form>
+        <div class="am-cf">
+            <div class="am-fr">
+                <ul class="am-pagination" id="page_bar">
+                    <li v-if="showFirst"><a href="#" v-on:click="prePages()">«</a></li>
+                    <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                        <a href="#" v-on:click="changePages(index)" v-text="index"></a>
+                    </li>
+                    <li v-if="showLast"><a href="#" v-on:click="nextPages()">»</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

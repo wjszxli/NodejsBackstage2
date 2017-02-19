@@ -14,6 +14,9 @@ var reportRouter=require('./routes/reportRoutes');
 var catalogue=require('./routes/catalogue');
 var organize = require('./routes/organize');
 var role = require('./routes/role');
+var reportShows= require('./routes/reportShows');
+
+const fs = require('fs');
 
 var app = express();
 
@@ -33,6 +36,7 @@ app.use('/reportRoutes',reportRouter);
 app.use('/catalogue',catalogue);
 app.use('/organize',organize);
 app.use('/role',role);
+app.use('/reportShows',reportShows);
 
 
 // catch 404 and forward to error handler
@@ -53,4 +57,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+var coors = {};
+coors.left_top = {};
+coors.right_top = {};
+coors.left_bottom = {};
+coors.right_bottom = {};
+//填充coors中内容
+var filename = "d:\\coors\\0.json";
+fs.writeFileSync(filename, JSON.stringify(coors));
 module.exports = app;
