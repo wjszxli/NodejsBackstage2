@@ -2,16 +2,17 @@
 var catalogueDatas = new Vue({
     el: '#catalogue_list',
     data: {
-        datas: [],
-        dataCount: 0,
-        searchId:null,
-        checkedIds:[],
-        statues:'new',
-        editIds:''
+        datas: [],//页面数据集
+        dataCount: 0,//数据条数
+        searchId:null,//查询数据
+        checkedIds:[],//选择的ID集
+        statues:'new',//状态
+        editIds:'',//编辑ID
+        parentId:'0'//父ID
     },
     created: function () {
         //获取数据
-        this.$http.get('/catalogue/datas/1/' + this.searchId).then(function (response) {
+        this.$http.get('/catalogue/datas/1/' + this.searchId+'/'+this.parentId).then(function (response) {
             this.datas = response.body.rows;
             this.dataCount = response.body.count;
             pageDatas.all = response.body.count;
@@ -21,7 +22,7 @@ var catalogueDatas = new Vue({
     },
     methods: {
         //删除数据
-        deleteReports: function (ids) {
+        deleteDatas: function (ids) {
             $('#my-confirm').modal({
                 relatedTarget: this,
                 onConfirm: function (options) {
@@ -43,7 +44,7 @@ var catalogueDatas = new Vue({
             if (!ids) {
                 ids = 1;
             }
-            this.$http.get('/catalogue/datas/' + ids + '/' + catalogueDatas.searchId).then(function (response) {
+            this.$http.get('/catalogue/datas/' + ids + '/' + catalogueDatas.searchId+'/'+this.parentId).then(function (response) {
                 this.datas = response.body.rows;
                 this.dataCount = response.body.count;
                 pageDatas.all = response.body.count;
@@ -52,7 +53,7 @@ var catalogueDatas = new Vue({
             });
         },
         //编辑数据
-        reportEdit:function (ids) {
+        editDatas:function (ids) {
             this.editIds=ids;
             catalogueDatas.statues='edit';
             var $modal = $('#doc-modal-1');
@@ -69,6 +70,10 @@ var catalogueDatas = new Vue({
                 catalogueNew.datas.F_AllowDelete=response.body.F_AllowDelete;
                 $modal.modal();
             });
+        },
+        nextCatalogue:function (parentIds) {
+            this.parentId=parentIds;
+            showDatas();
         },
         //全选与反选
         checkAll:function () {
@@ -227,9 +232,7 @@ var catalogueNew = new Vue({
                     $tooltip.hide();
                 }
             });
-            console.log(i);
             //console.log($('.am-input-sm.am-field-error.am-active'));
-            console.log($('.am-input-sm')[1]);
             // if(flag){
             //     $('#vld-tooltip').css('display','none');
             //     this.datas.id=catalogueDatas.editIds;

@@ -3,7 +3,7 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize(config.mysql);
 
 var reportShows = sequelize.define('rdm_datasources', {
-    F_id: Sequelize.INTEGER, //ID
+    F_id: Sequelize.STRING(50), //ID
     F_NAME: Sequelize.STRING(45),//名称
     F_SORT: Sequelize.INTEGER,//排序号
     F_REMARK: Sequelize.STRING(1000),//备注
@@ -67,5 +67,10 @@ module.exports = {
     //获取所有目录
     findAll:function (obj) {
         return reportShows.findAll(obj);
+    },
+    getDatasBySql:function (sql) {
+       return sequelize.query(sql,
+            { type: sequelize.QueryTypes.SELECT }
+        )
     }
 }

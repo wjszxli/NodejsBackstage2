@@ -2,7 +2,7 @@ module.exports={
     mysql:{
         database:'nodejsBackstage',
         username:'root',
-        password:'123456789'
+        password:'123456'
     },
     session: {
         secret: 'myblog',

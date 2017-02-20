@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
  *@param searchDatas 查询条件
  *@return count 数据条数 rows[]  返回的数据
  */
-router.get('/datas/:indexPages/:searchDatas', function (req, res, next) {
+router.get('/datas/:indexPages/:searchDatas/:parentId', function (req, res, next) {
     var indexPages = req.params.indexPages;
     if (!indexPages) {
         indexPages = 1;
