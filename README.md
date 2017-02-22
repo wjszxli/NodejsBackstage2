@@ -18,8 +18,9 @@ $ cd NodejsBackstage2
 $ npm install
 $ npm install
 ```
-第三步   运行测试
+第三步   新建数据库，导入db.sqlz中的SQL
 
+第四步   运行
 ```bash
 $ npm start
 ```
