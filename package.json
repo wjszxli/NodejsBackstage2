@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -15,6 +17,8 @@
     "express": "~4.14.0",
     "morgan": "~1.7.0",
     "sequelize": "^3.27.0",
-    "serve-favicon": "~2.3.0"
-  }
+    "serve-favicon": "~2.3.0",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
