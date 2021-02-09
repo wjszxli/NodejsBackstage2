@@ -11,7 +11,7 @@
     "config-lite": "^1.5.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
-    "ejs": "~2.5.2",
+    "ejs": "~3.1.6",
     "express": "~4.14.0",
     "morgan": "~1.7.0",
     "sequelize": "^3.27.0",
